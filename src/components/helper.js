@@ -192,12 +192,7 @@ export function stockDataToNotes(data, notes_dict) {
     return normalized_data.map(value => {
         console.log("value", value, typeof value)
         let closest_note = findClosestNote(value, notes_dict)
-        if (closest_note == '') {
-            console.log('no closest note', value)
-        }
-        else {
-            return notes_dict[closest_note]
-        }
+        return notes_dict[closest_note]
     });
 }
 // // let notes = calculateNoteFrequencies(8);

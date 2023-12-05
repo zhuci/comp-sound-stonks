@@ -1,4 +1,4 @@
-const notes_to_freq_dict = {
+export const notes_to_freq_dict = {
    "C0":   16.35,
   "C#0":   17.32,
   "Db0":   17.32,
