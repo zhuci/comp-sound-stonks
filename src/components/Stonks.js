@@ -10,34 +10,16 @@ const Stonks = ({ data }) => {
     )}-${String(d.getDate()).padStart(2, "0")}`;
   };
 
-  const getFirstDaysOfMonth = () => {
-    const firstDays = [];
-    let minDate = new Date(Math.min(...data.map((item) => item.date)));
-    let maxDate = new Date(Math.max(...data.map((item) => item.date)));
-
-    while (minDate <= maxDate) {
-      firstDays.push(
-        new Date(minDate.getFullYear(), minDate.getMonth(), 1).getTime()
-      );
-      minDate.setMonth(minDate.getMonth() + 1);
-    }
-
-    console.log(firstDays);
-
-    return firstDays;
-  };
-
   return (
     <LineChart width={800} height={300} data={data}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis
-        dataKey="date"
-        // ticks={["2008-01-01", "2018-01-01"]}
+        dataKey="datetime_str"
         tickFormatter={formatDate}
-        // padding={{ right: 100 }}
-        //
+        minTickGap={25}
+        interval="preserveStartEnd"
       />
-      <YAxis />
+      <YAxis type="number" domain={["auto", "auto"]} />
       <Line
         type="monotone"
         dataKey="close"

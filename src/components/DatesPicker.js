@@ -1,29 +1,42 @@
 import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const DatesPicker = ({ onDateChange }) => {
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(new Date("2008-09-27"));
+  const [endDate, setEndDate] = useState(new Date("2009-11-23"));
 
-  const handleStartDateChange = (event) => {
-    setStartDate(event.target.value);
-    onDateChange(event.target.value, endDate);
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+    setEndDate(date);
+    onDateChange(date, date);
   };
 
-  const handleEndDateChange = (event) => {
-    setEndDate(event.target.value);
-    onDateChange(startDate, event.target.value);
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+    onDateChange(startDate, date);
   };
 
   return (
     <div>
-      <label>
-        Start Date:
-        <input type="date" value={startDate} onChange={handleStartDateChange} />
-      </label>
-      <label>
-        End Date:
-        <input type="date" value={endDate} onChange={handleEndDateChange} />
-      </label>
+      <DatePicker
+        selected={startDate}
+        onChange={handleStartDateChange}
+        selectsStart
+        startDate={startDate}
+        endDate={endDate}
+        minDate={new Date("2000-01-01")}
+        maxDate={new Date()}
+      />
+      <DatePicker
+        selected={endDate}
+        onChange={handleEndDateChange}
+        selectsEnd
+        startDate={startDate}
+        endDate={endDate}
+        minDate={startDate}
+        maxDate={new Date()}
+      />
     </div>
   );
 };

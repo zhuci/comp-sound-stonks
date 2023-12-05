@@ -1,24 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Stonks from "./components/Stonks";
-import { fetchDailyData, fetchWeeklyData } from "./components/Stonks_api";
 import DatesPicker from "./components/DatesPicker";
+import Slider from "./components/Slider";
+import { readData } from "./utils/readData";
 
 const App = () => {
-  const [data, setData] = useState(null);
+  const [startDate, setStartDate] = useState(new Date("2008-09-27"));
+  const [endDate, setEndDate] = useState(new Date("2009-11-23"));
+  const [data, setData] = useState([]);
+  const [noteData, setNoteData] = useState([]);
+  const [sliderValue, setSliderValue] = useState(15);
 
   useEffect(() => {
-    const symbol = "SPY"; // replace with your symbol
-    const API_KEY = process.env.STONK_API_KEY;
+    const [dataRead, noteDataRead] = readData(startDate, endDate, sliderValue);
+    setData(dataRead);
+    setNoteData(noteDataRead);
+  }, [startDate, endDate, sliderValue]);
 
-    fetchWeeklyData(symbol, API_KEY).then((data) => {
-      setData(data);
-    });
-  }, []);
+  const handleDateChange = (start, end) => {
+    setStartDate(start);
+    setEndDate(end);
+  };
 
   return (
     <div>
-      <DatesPicker />
-      {data && <Stonks data={data} />}
+      <DatesPicker onDateChange={handleDateChange} />
+      <Slider
+        min={15}
+        max={100}
+        value={sliderValue}
+        onChange={setSliderValue}
+      />
+      <Stonks data={data} />
+      {/* <NotesData noteData={noteData} /> */}
     </div>
   );
 };
