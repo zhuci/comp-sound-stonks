@@ -18,25 +18,17 @@ export const readData = (startDate, endDate, numData) => {
   });
 
   const totalElements = dateRangeData.length;
-  console.log("data length: ", totalElements);
   if (totalElements > 500) {
     dateRangeData = dateRangeData.filter(
       (_, index) => index % Math.floor(totalElements / 500) === 0
     );
   }
-  console.log("data length after filter: ", dateRangeData.length);
 
   if (dateRangeData.length > numData) {
-    // let sliderData = dateRangeData.filter(
-    //   (_, index) => index % Math.ceil(dateRangeData.length / numData) === 0
-    // );
-
     let indices = Array.from({ length: numData }, (_, i) =>
       Math.round((i * totalElements) / numData)
     );
     let sliderData = indices.map((index) => dateRangeData[index]);
-    console.log("numData", numData);
-    console.log("date range data length: ", sliderData.length);
 
     return [dateRangeData, sliderData];
   }

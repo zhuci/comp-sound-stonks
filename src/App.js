@@ -32,7 +32,6 @@ const App = () => {
         onChange={setSliderValue}
       />
       <Stonks data={data} />
-      {/* <NotesData noteData={noteData} /> */}
     </div>
   );
 };
