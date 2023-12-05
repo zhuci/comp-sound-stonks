@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Stonks from "./components/Stonks";
-import { fetchDailyData } from "./components/Stonks_api";
+import { fetchDailyData, fetchWeeklyData } from "./components/Stonks_api";
+import DatesPicker from "./components/DatesPicker";
 
 const App = () => {
   const [data, setData] = useState(null);
@@ -9,12 +10,17 @@ const App = () => {
     const symbol = "SPY"; // replace with your symbol
     const API_KEY = process.env.STONK_API_KEY;
 
-    fetchDailyData(symbol, API_KEY).then((data) => {
+    fetchWeeklyData(symbol, API_KEY).then((data) => {
       setData(data);
     });
   }, []);
 
-  return <div>{data && <Stonks data={data} />}</div>;
+  return (
+    <div>
+      <DatesPicker />
+      {data && <Stonks data={data} />}
+    </div>
+  );
 };
 
 export default App;
