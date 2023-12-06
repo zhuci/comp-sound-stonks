@@ -37,13 +37,17 @@ const AudioPlayer = ({ frequencies, noteDuration }) => {
   };
 
   const playFrequency = (freq, duration) => {
-    const oscillator = audioContext.createOscillator();
-    oscillator.type = "sine";
-    console.log("frew", freq);
-    oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
-    oscillator.connect(audioContext.destination);
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + duration);
+    if (audioContext) {
+        const oscillator = audioContext.createOscillator();
+        oscillator.type = "sine";
+        console.log("frew", freq);
+        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+        oscillator.connect(audioContext.destination);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + duration);
+    } else {
+        console.error('AudioContext not initialized');
+    }
   };
 
   const playFrequencies = () => {
