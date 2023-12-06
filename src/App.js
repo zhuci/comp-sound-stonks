@@ -39,7 +39,7 @@ const App = () => {
         value={sliderValue}
         onChange={setSliderValue}
       />
-      <Stonks data={data} />
+      <Stonks data={data} notePoints={noteData} />
       <AudioPlayer frequencies={tempFreq} noteDuration={0.5} />
     </div>
   );
