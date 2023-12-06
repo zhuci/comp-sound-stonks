@@ -17,18 +17,20 @@ export const readData = (startDate, endDate, numData) => {
     return itemDate >= startDate && itemDate <= endDate;
   });
 
-  const totalElements = dateRangeData.length;
+  let totalElements = dateRangeData.length;
   if (totalElements > 500) {
     dateRangeData = dateRangeData.filter(
       (_, index) => index % Math.floor(totalElements / 500) === 0
     );
   }
 
+  totalElements = dateRangeData.length;
   if (dateRangeData.length > numData) {
     let indices = Array.from({ length: numData }, (_, i) =>
       Math.round((i * totalElements) / numData)
     );
     let sliderData = indices.map((index) => dateRangeData[index]);
+    console.log("slider data", sliderData);
 
     return [dateRangeData, sliderData];
   }
