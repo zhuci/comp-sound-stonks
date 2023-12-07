@@ -1,6 +1,12 @@
+import dayjs from "dayjs";
+var isSameOrAfter = require("dayjs/plugin/isSameOrAfter");
+dayjs.extend(isSameOrAfter);
+var isSameOrBefore = require("dayjs/plugin/isSameOrBefore");
+dayjs.extend(isSameOrBefore);
+
 export const readData = (startDate, endDate, numData) => {
-  const startYear = startDate.getFullYear();
-  const endYear = endDate.getFullYear();
+  const startYear = startDate.year();
+  const endYear = endDate.year();
   const allData = [];
 
   for (let year = startYear; year <= endYear; year++) {
@@ -13,8 +19,10 @@ export const readData = (startDate, endDate, numData) => {
   const flatData = allData.flat();
 
   let dateRangeData = flatData.filter((item) => {
-    const itemDate = new Date(item.datetime_str);
-    return itemDate >= startDate && itemDate <= endDate;
+    const itemDate = dayjs(item.datetime_str);
+    return (
+      itemDate.isSameOrAfter(startDate) && itemDate.isSameOrBefore(endDate)
+    );
   });
 
   let totalElements = dateRangeData.length;

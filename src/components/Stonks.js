@@ -1,7 +1,14 @@
 import React from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ReferenceLine,
+} from "recharts";
 
-const Stonks = ({ data, notePoints }) => {
+const Stonks = ({ data, notePoints, currentTime }) => {
   const formatDate = (date) => {
     const d = new Date(date);
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
@@ -18,14 +25,17 @@ const Stonks = ({ data, notePoints }) => {
     return notePoint ? { ...item, note: notePoint.close } : item;
   });
 
+  let filteredData = data.filter((item) => item.note !== undefined);
+  let currentDatetimeStr = filteredData[currentTime]?.datetime_str;
+
   return (
-    <LineChart width={800} height={300} data={data}>
+    <LineChart width={1000} height={300} data={data}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis
         dataKey="datetime_str"
         tickFormatter={formatDate}
         minTickGap={25}
-        interval="preserveStartEnd"
+        interval="preserveStart"
       />
       <YAxis type="number" domain={["auto", "auto"]} />
       <Line
@@ -35,11 +45,13 @@ const Stonks = ({ data, notePoints }) => {
         dot={{ fill: "#8884d8", r: 0 }}
       />
       <Line
+        connectNulls
         type="monotone"
         dataKey="note"
-        stroke="#8884d8"
+        stroke="#82ca9d"
         dot={{ fill: "#82ca9d", r: 4 }}
       />
+      <ReferenceLine x={currentDatetimeStr} stroke="#82ca9d" />
     </LineChart>
   );
 };

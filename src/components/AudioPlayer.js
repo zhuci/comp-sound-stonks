@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Button from "@mui/material/Button";
 
-const AudioPlayer = ({ frequencies, noteDuration }) => {
+const AudioPlayer = ({ frequencies, noteDuration, onTimeUpdate }) => {
   // State for the audio context
   const [audioContext, setAudioContext] = useState(null);
 
@@ -36,17 +37,18 @@ const AudioPlayer = ({ frequencies, noteDuration }) => {
     }
   };
 
-  const playFrequency = (freq, duration) => {
+  const playFrequency = (index, freq, duration) => {
     if (audioContext) {
-        const oscillator = audioContext.createOscillator();
-        oscillator.type = "sine";
-        console.log("frew", freq);
-        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
-        oscillator.connect(audioContext.destination);
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + duration);
+      const oscillator = audioContext.createOscillator();
+      onTimeUpdate(index);
+      oscillator.type = "sine";
+      console.log("frew", freq);
+      oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+      oscillator.connect(audioContext.destination);
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + duration);
     } else {
-        console.error('AudioContext not initialized');
+      console.error("AudioContext not initialized");
     }
   };
 
@@ -54,14 +56,14 @@ const AudioPlayer = ({ frequencies, noteDuration }) => {
     initializeAudioContext();
     frequencies.forEach((freq, index) => {
       setTimeout(() => {
-        playFrequency(freq, noteDuration);
+        playFrequency(index, freq, noteDuration);
       }, noteDuration * 1000 * index);
     });
   };
 
   return (
     <div>
-      <button onClick={playFrequencies}>Play Notes</button>
+      <Button onClick={playFrequencies}>Play Notes</Button>
     </div>
   );
 };
