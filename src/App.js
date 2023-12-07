@@ -5,7 +5,7 @@ import Slider from "./components/Slider";
 import AudioPlayer from "./components/AudioPlayer";
 import { readData } from "./utils/readData";
 import { notes_to_freq_dict } from "./utils/notes-frequencies";
-import { stockDataToNotes } from "./components/helper";
+import { dataToNotes } from "./components/DataToNotes";
 
 const App = () => {
   const [startDate, setStartDate] = useState(new Date("2008-09-28"));
@@ -15,13 +15,32 @@ const App = () => {
   const [sliderValue, setSliderValue] = useState(15);
   const [tempFreq, setTempFreq] = useState(null);
 
+  // create audioCtx and global gain
+  const [audioContext, setAudioContext] = useState(null);
+  // const [globalGain, setGlobalGain] = useState(null);
+
+  if (!audioContext) {
+    const newAudioContext = new (window.AudioContext ||
+      window.webkitAudioContext)();
+    setAudioContext(newAudioContext);
+    // const newGlobalGain = newAudioContext.createGain(); 
+    // newGlobalGain.gain.setValueAtTime(0.7, newAudioContext.currentTime);
+    // newGlobalGain.connect(newAudioContext.destination);;
+    // setGlobalGain(globalGain);
+  } else {
+    // If AudioContext is suspended, resume it
+    if (audioContext.state === "suspended") {
+      audioContext.resume();
+    }
+  }
+
   useEffect(() => {
     const [dataRead, noteDataRead] = readData(startDate, endDate, sliderValue);
     setData(dataRead);
     setNoteData(noteDataRead);
 
     let tempData = noteDataRead.map((value) => (value.high + value.low) / 2);
-    let test = stockDataToNotes(tempData, notes_to_freq_dict);
+    let test = dataToNotes(tempData, notes_to_freq_dict);
     setTempFreq(test);
   }, [startDate, endDate, sliderValue]);
 
@@ -40,7 +59,11 @@ const App = () => {
         onChange={setSliderValue}
       />
       <Stonks data={data} notePoints={noteData} />
-      <AudioPlayer frequencies={tempFreq} noteDuration={0.5} />
+      <AudioPlayer 
+        frequencies={tempFreq}
+        noteDuration={0.5}
+        audioContext={audioContext}
+        />
     </div>
   );
 };
