@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import Stonks from "./components/Stonks";
 // import Slider from "./components/Slider";
+import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import AudioPlayer from "./components/AudioPlayer";
 import { readData } from "./utils/readData";
 import { notes_to_freq_dict } from "./utils/notes-frequencies";
@@ -60,35 +63,47 @@ const App = () => {
     setEndDate(end);
   };
 
+  // TODO ellen: remove the weird box/stack stuff and use tailwind
   return (
-    <div>
+    <Box padding={2}>
       {/* <DatesPicker onDateChange={handleDateChange} /> */}
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          label="start date"
-          value={startDate}
-          onChange={(newStartDate) => setStartDate(newStartDate)}
-        />
-        <DatePicker
-          label="end date"
-          value={endDate}
-          onChange={(newEndDate) => setEndDate(newEndDate)}
-        />
+        <Stack direction="row" spacing={2} marginBottom={2}>
+          <DatePicker
+            label="start date"
+            value={startDate}
+            onChange={(newStartDate) => setStartDate(newStartDate)}
+          />
+          <DatePicker
+            label="end date"
+            value={endDate}
+            onChange={(newEndDate) => setEndDate(newEndDate)}
+          />
+        </Stack>
       </LocalizationProvider>
-      <Slider
-        value={sliderValue}
-        onChange={(event, newValue) => setSliderValue(newValue)}
-        min={15}
-        max={100}
-      />
-      <Stonks data={data} notePoints={binnedData} currentTime={currentTime} />
+      <Box display="flex" alignItems="center" marginBottom={2}>
+        <Typography id="number-of-notes" gutterBottom>
+          Number of notes
+        </Typography>
+        <Box width={300} marginLeft={2}>
+          <Slider
+            value={sliderValue}
+            onChange={(event, newValue) => setSliderValue(newValue)}
+            min={15}
+            max={100}
+          />
+        </Box>
+      </Box>
+      <Box marginBottom={2}>
+        <Stonks data={data} notePoints={binnedData} currentTime={currentTime} />
+      </Box>
       <AudioPlayer
         noteData={noteData}
         noteDuration={0.5}
         audioContext={audioContext}
         onTimeUpdate={setCurrentTime}
       />
-    </div>
+    </Box>
   );
 };
 
