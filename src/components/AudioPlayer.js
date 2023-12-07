@@ -1,62 +1,66 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Button from "@mui/material/Button";
 
-const AudioPlayer = ({ frequencies, noteDuration, onTimeUpdate }) => {
-  // State for the audio context
-  const [audioContext, setAudioContext] = useState(null);
+// const globalGainMax = 0.6;
+const attackMaxGain = 0.5;
+const attackConstant = 0.002;
+const attackTime = 0.01;
+const decayConstant = 0.002;
+const decayTime = 0.01;
+const sustainGain = 0.3;
+const releaseConstant = 0.01;
+// const epsilon = 0.001;
 
-  console.log("frequencies", frequencies);
-
-  // Frequencies array
-  // const frequencies = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88]; // C4 to B4
-  // const noteDuration = 0.5; // Duration for each note
-
-  // useEffect(() => {
-  //     // Initialize the audio context when the component mounts
-  //     const newAudioContext = new (window.AudioContext || window.webkitAudioContext)();
-  //     setAudioContext(newAudioContext);
-
-  //     // Clean up on unmount
-  //     return () => {
-  //         if (newAudioContext) {
-  //             newAudioContext.close();
-  //         }
-  //     };
-  // }, []);
-  const initializeAudioContext = () => {
-    // Create AudioContext on user interaction
-    if (!audioContext) {
-      const newAudioContext = new (window.AudioContext ||
-        window.webkitAudioContext)();
-      setAudioContext(newAudioContext);
-    } else {
-      // If AudioContext is suspended, resume it
-      if (audioContext.state === "suspended") {
-        audioContext.resume();
-      }
-    }
-  };
-
+const AudioPlayer = ({
+  noteData,
+  noteDuration,
+  audioContext,
+  onTimeUpdate,
+}) => {
   const playFrequency = (index, freq, duration) => {
     if (audioContext) {
-      const oscillator = audioContext.createOscillator();
       onTimeUpdate(index);
+      const oscillator = audioContext.createOscillator();
       oscillator.type = "sine";
-      console.log("frew", freq);
+      // set target at time
       oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
-      oscillator.connect(audioContext.destination);
+      // oscillator.frequency.setTargetAtTime(freq, audioContext.currentTime, 0.1)
+
+      // ADSR
+      const gainNode = audioContext.createGain();
+      // ADSR Attack
+      gainNode.gain.setValueAtTime(0.001, audioContext.currentTime);
+      gainNode.gain.setTargetAtTime(
+        attackMaxGain,
+        audioContext.currentTime,
+        attackConstant
+      );
+      // ADSR Decay
+      gainNode.gain.setTargetAtTime(
+        sustainGain,
+        audioContext.currentTime + attackTime,
+        decayConstant
+      );
+
+      oscillator.connect(gainNode).connect(audioContext.destination);
       oscillator.start();
-      oscillator.stop(audioContext.currentTime + duration);
+
+      // ADSR Sustain + Release
+      gainNode.gain.setTargetAtTime(
+        0,
+        audioContext.currentTime + attackTime + decayTime + noteDuration,
+        releaseConstant
+      );
     } else {
       console.error("AudioContext not initialized");
     }
   };
 
   const playFrequencies = () => {
-    initializeAudioContext();
-    frequencies.forEach((freq, index) => {
+    // initializeAudioContext();
+    noteData.forEach((note, index) => {
       setTimeout(() => {
-        playFrequency(index, freq, noteDuration);
+        playFrequency(index, note.freq, noteDuration);
       }, noteDuration * 1000 * index);
     });
   };
