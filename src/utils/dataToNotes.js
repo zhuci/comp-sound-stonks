@@ -55,12 +55,15 @@ function findClosestNote(frequency, notes_dict) {
   return closestNote;
 }
 
+// return array of note freuqncies and array of note names
 export function dataToNotes(data, notes_dict) {
   //  newMin, newMax --> lets do "C2" to "B5"
   let normalized_data = normalizeDataToRange(data, 65.41, 987.77);
-  return normalized_data.map((value) => {
-    console.log("value", value, typeof value);
+  return normalized_data.map((value) => { 
     let closest_note = findClosestNote(value, notes_dict);
-    return notes_dict[closest_note];
+    return {
+      note: closest_note,
+      freq: notes_dict[closest_note]
+    }
   });
 }

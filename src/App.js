@@ -5,15 +5,15 @@ import Slider from "./components/Slider";
 import AudioPlayer from "./components/AudioPlayer";
 import { readData } from "./utils/readData";
 import { notes_to_freq_dict } from "./utils/notes-frequencies";
-import { dataToNotes } from "./components/DataToNotes";
+import { dataToNotes } from "./utils/dataToNotes";
 
 const App = () => {
   const [startDate, setStartDate] = useState(new Date("2008-09-28"));
   const [endDate, setEndDate] = useState(new Date("2009-11-23"));
   const [data, setData] = useState([]);
-  const [noteData, setNoteData] = useState([]);
+  const [binnedData, setBinnedData] = useState([]);
   const [sliderValue, setSliderValue] = useState(15);
-  const [tempFreq, setTempFreq] = useState(null);
+  const [noteData, setNoteData] = useState(null);
 
   // create audioCtx and global gain
   const [audioContext, setAudioContext] = useState(null);
@@ -35,13 +35,14 @@ const App = () => {
   }
 
   useEffect(() => {
-    const [dataRead, noteDataRead] = readData(startDate, endDate, sliderValue);
+    const [dataRead, binnedDataRead] = readData(startDate, endDate, sliderValue);
     setData(dataRead);
-    setNoteData(noteDataRead);
+    setBinnedData(binnedDataRead);
 
-    let tempData = noteDataRead.map((value) => (value.high + value.low) / 2);
-    let test = dataToNotes(tempData, notes_to_freq_dict);
-    setTempFreq(test);
+    let closeBinnedData = binnedDataRead.map((value) => value.close);
+    let newNoteData = dataToNotes(closeBinnedData, notes_to_freq_dict);
+    console.log("newNoteData", newNoteData)
+    setNoteData(newNoteData);
   }, [startDate, endDate, sliderValue]);
 
   const handleDateChange = (start, end) => {
@@ -58,9 +59,9 @@ const App = () => {
         value={sliderValue}
         onChange={setSliderValue}
       />
-      <Stonks data={data} notePoints={noteData} />
+      <Stonks data={data} notePoints={binnedData} />
       <AudioPlayer 
-        frequencies={tempFreq}
+        noteData={noteData}
         noteDuration={0.5}
         audioContext={audioContext}
         />

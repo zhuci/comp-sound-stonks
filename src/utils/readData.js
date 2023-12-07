@@ -30,7 +30,6 @@ export const readData = (startDate, endDate, numData) => {
       Math.round((i * totalElements) / numData)
     );
     let sliderData = indices.map((index) => dateRangeData[index]);
-    console.log("slider data", sliderData);
 
     return [dateRangeData, sliderData];
   }

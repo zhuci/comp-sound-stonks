@@ -11,7 +11,7 @@ const sustainGain = 0.3;
 const releaseConstant = 0.01;
 // const epsilon = 0.001;
 
-const AudioPlayer = ({ frequencies, noteDuration, audioContext }) => {
+const AudioPlayer = ({ noteData, noteDuration, audioContext }) => {
 
   const playFrequency = (freq, duration) => {
     if (audioContext) {
@@ -41,9 +41,9 @@ const AudioPlayer = ({ frequencies, noteDuration, audioContext }) => {
 
   const playFrequencies = () => {
     // initializeAudioContext();
-    frequencies.forEach((freq, index) => {
+    noteData.forEach((note, index) => {
       setTimeout(() => {
-        playFrequency(freq, noteDuration);
+        playFrequency(note.freq, noteDuration);
       }, noteDuration * 1000 * index);
     });
   };
