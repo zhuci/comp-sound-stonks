@@ -8,8 +8,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import AudioPlayer from "./components/AudioPlayer";
 import { readData } from "./utils/readData";
-import { notes_to_freq_dict } from "./utils/notes-frequencies";
-import { dataToNotes } from "./utils/dataToNotes";
+import { notes_to_freq_dict, scale_to_notes } from "./utils/notes-frequencies";
+import { dataToNotes, keyRangeToFreq } from "./utils/dataToNotes";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -53,7 +53,10 @@ const App = () => {
 
     let closeBinnedData = binnedDataRead.map((value) => value.close);
     let newNoteData = dataToNotes(closeBinnedData, notes_to_freq_dict);
-    console.log("newNoteData", newNoteData);
+
+    // testing
+    keyRangeToFreq("Ab", 1, 3, notes_to_freq_dict, scale_to_notes);
+
     setNoteData(newNoteData);
     setCurrentTime(0);
   }, [startDate, endDate, sliderValue]);

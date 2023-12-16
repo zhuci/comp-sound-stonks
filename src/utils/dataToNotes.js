@@ -56,14 +56,33 @@ function findClosestNote(frequency, notes_dict) {
 }
 
 // return array of note freuqncies and array of note names
-export function dataToNotes(data, notes_dict) {
+export function dataToNotes(data, notesDict) {
   //  newMin, newMax --> lets do "C2" to "B5"
   let normalized_data = normalizeDataToRange(data, 65.41, 987.77);
-  return normalized_data.map((value) => { 
-    let closest_note = findClosestNote(value, notes_dict);
+  return normalized_data.map((value) => {
+    let closest_note = findClosestNote(value, notesDict);
     return {
       note: closest_note,
-      freq: notes_dict[closest_note]
-    }
+      freq: notesDict[closest_note],
+    };
   });
+}
+
+// based on key and range, return dict of major and minor notes and freq
+export function keyRangeToFreq(key, startOct, endOct, notesDict, scalesDict) {
+  let major_dict = {};
+  let minor_dict = {};
+  let maj_scale = scalesDict[key + "_maj"];
+  let min_scale = scalesDict[key + "_min"];
+
+  for (let cur_oct = startOct; cur_oct < endOct + 1; cur_oct++) {
+    for (let cur_note = 0; cur_note < endOct + 7; cur_note++) {
+      let cur_maj_note = maj_scale[cur_note] + cur_oct;
+      let cur_min_note = min_scale[cur_note] + cur_oct;
+      major_dict[cur_maj_note] = notesDict[cur_maj_note];
+      minor_dict[cur_min_note] = notesDict[cur_min_note];
+    }
+  }
+
+  return major_dict, minor_dict;
 }

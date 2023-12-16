@@ -19,9 +19,8 @@ const Stonks = ({ data, notePoints, currentTime }) => {
 
   data = data.map((item) => {
     const notePoint = notePoints.find(
-      (note) => note.datetime_str == item.datetime_str
+      (note) => note.datetime_str === item.datetime_str
     );
-    console.log("notePoint", notePoint);
     return notePoint ? { ...item, note: notePoint.close } : item;
   });
 
