@@ -1,43 +1,26 @@
-import React, { useState } from "react";
-import DatePicker from "react-datepicker";
+import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
+import Stack from "@mui/material/Stack";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
-const DatesPicker = ({ onDateChange }) => {
-  const [startDate, setStartDate] = useState(new Date("2008-09-27"));
-  const [endDate, setEndDate] = useState(new Date("2009-11-23"));
-
-  const handleStartDateChange = (date) => {
-    setStartDate(date);
-    setEndDate(date);
-    onDateChange(date, date);
-  };
-
-  const handleEndDateChange = (date) => {
-    setEndDate(date);
-    onDateChange(startDate, date);
-  };
-
+const DatesPicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
   return (
-    <div>
-      <DatePicker
-        selected={startDate}
-        onChange={handleStartDateChange}
-        selectsStart
-        startDate={startDate}
-        endDate={endDate}
-        minDate={new Date("2000-01-01")}
-        maxDate={new Date()}
-      />
-      <DatePicker
-        selected={endDate}
-        onChange={handleEndDateChange}
-        selectsEnd
-        startDate={startDate}
-        endDate={endDate}
-        minDate={startDate}
-        maxDate={new Date()}
-      />
-    </div>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Stack direction="row" spacing={2} marginBottom={2}>
+        <DatePicker
+          label="start date"
+          value={startDate}
+          onChange={(newStartDate) => setStartDate(newStartDate)}
+        />
+        <DatePicker
+          label="end date"
+          value={endDate}
+          onChange={(newEndDate) => setEndDate(newEndDate)}
+        />
+      </Stack>
+    </LocalizationProvider>
   );
 };
 
