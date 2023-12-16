@@ -39,20 +39,6 @@ const App = () => {
   const { settings, setStartDate, setEndDate, setSliderValue } =
     useSettings(initialSettings);
 
-  // create audioCtx and global gain
-  const [audioContext, setAudioContext] = useState(null);
-
-  if (!audioContext) {
-    const newAudioContext = new (window.AudioContext ||
-      window.webkitAudioContext)();
-    setAudioContext(newAudioContext);
-  } else {
-    // If AudioContext is suspended, resume it
-    if (audioContext.state === "suspended") {
-      audioContext.resume();
-    }
-  }
-
   return (
     <div className="flex flex-col m-8 space-y-4">
       <Settings
@@ -63,7 +49,7 @@ const App = () => {
         setEndDate={setEndDate}
         setSliderValue={setSliderValue}
       />
-      <Result settings={settings} audioContext={audioContext} />
+      <Result settings={settings} />
     </div>
   );
 };

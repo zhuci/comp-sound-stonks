@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 
 // const globalGainMax = 0.6;
@@ -11,12 +11,27 @@ const sustainGain = 0.3;
 const releaseConstant = 0.01;
 // const epsilon = 0.001;
 
-const AudioPlayer = ({
-  noteData,
-  noteDuration,
-  audioContext,
-  onTimeUpdate,
-}) => {
+const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
+  // create audioCtx and global gain
+  const [audioContext, setAudioContext] = useState(null);
+
+  const initializeAudioContext = () => {
+    if (!audioContext) {
+      const newAudioContext = new (window.AudioContext ||
+        window.webkitAudioContext)();
+      setAudioContext(newAudioContext);
+    } else {
+      // If AudioContext is suspended, resume it
+      if (audioContext.state === "suspended") {
+        audioContext.resume();
+      }
+    }
+  };
+
+  useEffect(() => {
+    initializeAudioContext();
+  });
+
   const playFrequency = (index, freq, duration) => {
     if (audioContext) {
       onTimeUpdate(index);
