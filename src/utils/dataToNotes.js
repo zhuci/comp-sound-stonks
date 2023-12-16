@@ -13,32 +13,32 @@ function normalizeDataToRange(data, newMin, newMax) {
 }
 
 // octaves from C0
-function calculateNoteFrequencies(octaves) {
-  const A4 = 440.0;
-  let notes = {};
-  const noteNames = [
-    "C",
-    "C#",
-    "D",
-    "D#",
-    "E",
-    "F",
-    "F#",
-    "G",
-    "G#",
-    "A",
-    "A#",
-    "B",
-  ];
+// function calculateNoteFrequencies(octaves) {
+//   const A4 = 440.0;
+//   let notes = {};
+//   const noteNames = [
+//     "C",
+//     "C#",
+//     "D",
+//     "D#",
+//     "E",
+//     "F",
+//     "F#",
+//     "G",
+//     "G#",
+//     "A",
+//     "A#",
+//     "B",
+//   ];
 
-  for (let i = 0; i < octaves * 12; i++) {
-    const noteFrequency = A4 * Math.pow(2, (i - 57) / 12);
-    const noteName = noteNames[i % 12] + Math.floor(i / 12);
-    notes[noteName] = noteFrequency;
-  }
+//   for (let i = 0; i < octaves * 12; i++) {
+//     const noteFrequency = A4 * Math.pow(2, (i - 57) / 12);
+//     const noteName = noteNames[i % 12] + Math.floor(i / 12);
+//     notes[noteName] = noteFrequency;
+//   }
 
-  return notes;
-}
+//   return notes;
+// }
 
 function findClosestNote(frequency, notes_dict) {
   let closestNote = "";

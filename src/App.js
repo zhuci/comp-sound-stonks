@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import Stonks from "./components/Stonks";
-// import Slider from "./components/Slider";
-import Box from "@mui/material/Box";
-import Slider from "@mui/material/Slider";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import AudioPlayer from "./components/AudioPlayer";
+import DatesPicker from "./components/DatesPicker";
+import NoteSlider from "./components/NoteSlider";
 import { readData } from "./utils/readData";
+
 import { notes_to_freq_dict, scale_to_notes } from "./utils/notes-frequencies";
 import { dataToNotes, keyRangeToFreq } from "./utils/dataToNotes";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 const App = () => {
   const [startDate, setStartDate] = useState(dayjs("2008-09-28"));
@@ -61,52 +56,24 @@ const App = () => {
     setCurrentTime(0);
   }, [startDate, endDate, sliderValue]);
 
-  const handleDateChange = (start, end) => {
-    setStartDate(start);
-    setEndDate(end);
-  };
-
   // TODO ellen: remove the weird box/stack stuff and use tailwind
   return (
-    <Box padding={2}>
-      {/* <DatesPicker onDateChange={handleDateChange} /> */}
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Stack direction="row" spacing={2} marginBottom={2}>
-          <DatePicker
-            label="start date"
-            value={startDate}
-            onChange={(newStartDate) => setStartDate(newStartDate)}
-          />
-          <DatePicker
-            label="end date"
-            value={endDate}
-            onChange={(newEndDate) => setEndDate(newEndDate)}
-          />
-        </Stack>
-      </LocalizationProvider>
-      <Box display="flex" alignItems="center" marginBottom={2}>
-        <Typography id="number-of-notes" gutterBottom>
-          Number of notes
-        </Typography>
-        <Box width={300} marginLeft={2}>
-          <Slider
-            value={sliderValue}
-            onChange={(event, newValue) => setSliderValue(newValue)}
-            min={15}
-            max={100}
-          />
-        </Box>
-      </Box>
-      <Box marginBottom={2}>
-        <Stonks data={data} notePoints={binnedData} currentTime={currentTime} />
-      </Box>
+    <div className="flex flex-col space-y-4 m-8">
+      <DatesPicker
+        startDate={startDate}
+        endDate={endDate}
+        setStartDate={setStartDate}
+        setEndDate={setEndDate}
+      />
+      <NoteSlider sliderValue={sliderValue} setSliderValue={setSliderValue} />
+      <Stonks data={data} notePoints={binnedData} currentTime={currentTime} />
       <AudioPlayer
         noteData={noteData}
         noteDuration={0.5}
         audioContext={audioContext}
         onTimeUpdate={setCurrentTime}
       />
-    </Box>
+    </div>
   );
 };
 
