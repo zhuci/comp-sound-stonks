@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const KeyOctavesPicker = () => {
-  const [key, setKey] = useState("C");
-  const [startOct, setStartOct] = useState(0);
-  const [endOct, setEndOct] = useState(8);
-
+const KeyOctavesPicker = ({
+  scaleKey,
+  startOct,
+  endOct,
+  setScaleKey,
+  setStartOct,
+  setEndOct,
+}) => {
   const allKeys = [
     "A",
     "Bb",
@@ -29,18 +32,20 @@ const KeyOctavesPicker = () => {
     </MenuItem>
   ));
 
+  console.log("scaleKey, startOct,  endOct:", scaleKey, startOct, endOct);
+
   return (
     <div className="flex space-x-4">
       {/* key */}
       <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
         <InputLabel>Key</InputLabel>
         <Select
-          value={key}
-          label="Age"
-          onChange={(e) => setKey(e.target.value)}
+          value={scaleKey}
+          label="Key"
+          onChange={(e) => setScaleKey(e.target.value)}
         >
           {allKeys.map((curKey, index) => (
-            <MenuItem key={index} value={curKey}>
+            <MenuItem key={curKey} value={curKey}>
               {curKey}
             </MenuItem>
           ))}

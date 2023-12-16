@@ -24,7 +24,27 @@ const useSettings = (initialSettings) => {
     setSettings((prevSettings) => ({ ...prevSettings, sliderValue }));
   };
 
-  return { settings, setStartDate, setEndDate, setSliderValue };
+  const setScaleKey = (scaleKey) => {
+    setSettings((prevSettings) => ({ ...prevSettings, scaleKey }));
+  };
+
+  const setStartOct = (startOct) => {
+    setSettings((prevSettings) => ({ ...prevSettings, startOct }));
+  };
+
+  const setEndOct = (endOct) => {
+    setSettings((prevSettings) => ({ ...prevSettings, endOct }));
+  };
+
+  return {
+    settings,
+    setStartDate,
+    setEndDate,
+    setSliderValue,
+    setScaleKey,
+    setStartOct,
+    setEndOct,
+  };
 };
 
 const App = () => {
@@ -34,10 +54,20 @@ const App = () => {
       end: dayjs("2009-11-23"),
     },
     sliderValue: 15,
+    scaleKey: "C",
+    startOct: 0,
+    endOct: 8,
   };
 
-  const { settings, setStartDate, setEndDate, setSliderValue } =
-    useSettings(initialSettings);
+  const {
+    settings,
+    setStartDate,
+    setEndDate,
+    setSliderValue,
+    setScaleKey,
+    setStartOct,
+    setEndOct,
+  } = useSettings(initialSettings);
 
   return (
     <div className="flex flex-col m-8 space-y-4">
@@ -45,9 +75,15 @@ const App = () => {
         startDate={settings.date.start}
         endDate={settings.date.end}
         sliderValue={settings.sliderValue}
+        scaleKey={settings.scaleKey}
+        startOct={settings.startOct}
+        endOct={settings.endOct}
         setStartDate={setStartDate}
         setEndDate={setEndDate}
         setSliderValue={setSliderValue}
+        setScaleKey={setScaleKey}
+        setStartOct={setStartOct}
+        setEndOct={setEndOct}
       />
       <Result settings={settings} />
     </div>

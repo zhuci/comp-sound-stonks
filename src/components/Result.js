@@ -27,7 +27,7 @@ const Result = ({ settings }) => {
     setData(() => ({ note: newNoteData, raw: rawData, binned: binnedData }));
 
     // testing
-    keyRangeToFreq("Ab", 1, 3, notes_to_freq_dict, scale_to_notes);
+    console.log(keyRangeToFreq("Ab", 1, 3, notes_to_freq_dict, scale_to_notes));
     setCurrentTime(0);
   }, [settings.date.start, settings.date.end, settings.sliderValue]);
 
