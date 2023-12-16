@@ -6,7 +6,7 @@ import { notes_to_freq_dict, scale_to_notes } from "../utils/notes-frequencies";
 import { dataToNotes, keyRangeToFreq } from "../utils/dataToNotes";
 import { readData } from "../utils/readData";
 
-const Result = ({ settings, audioContext }) => {
+const Result = ({ settings }) => {
   const [data, setData] = useState({
     raw: [],
     binned: [],
@@ -41,7 +41,6 @@ const Result = ({ settings, audioContext }) => {
       <AudioPlayer
         noteData={data.note}
         noteDuration={0.5}
-        audioContext={audioContext}
         onTimeUpdate={setCurrentTime}
       />
     </div>
