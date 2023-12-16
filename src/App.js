@@ -5,7 +5,6 @@ import AudioPlayer from "./components/AudioPlayer";
 import DatesPicker from "./components/DatesPicker";
 import NoteSlider from "./components/NoteSlider";
 import { readData } from "./utils/readData";
-import Box from "@mui/material/Box";
 
 import { notes_to_freq_dict, scale_to_notes } from "./utils/notes-frequencies";
 import { dataToNotes, keyRangeToFreq } from "./utils/dataToNotes";
@@ -59,7 +58,7 @@ const App = () => {
 
   // TODO ellen: remove the weird box/stack stuff and use tailwind
   return (
-    <Box padding={2}>
+    <div className="flex flex-col space-y-4 m-8">
       <DatesPicker
         startDate={startDate}
         endDate={endDate}
@@ -67,16 +66,14 @@ const App = () => {
         setEndDate={setEndDate}
       />
       <NoteSlider sliderValue={sliderValue} setSliderValue={setSliderValue} />
-      <Box marginBottom={2}>
-        <Stonks data={data} notePoints={binnedData} currentTime={currentTime} />
-      </Box>
+      <Stonks data={data} notePoints={binnedData} currentTime={currentTime} />
       <AudioPlayer
         noteData={noteData}
         noteDuration={0.5}
         audioContext={audioContext}
         onTimeUpdate={setCurrentTime}
       />
-    </Box>
+    </div>
   );
 };
 

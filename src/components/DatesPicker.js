@@ -1,6 +1,6 @@
 import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import Stack from "@mui/material/Stack";
+// import Stack from "@mui/material/Stack";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -8,7 +8,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 const DatesPicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Stack direction="row" spacing={2} marginBottom={2}>
+      <div className="flex space-x-4">
         <DatePicker
           label="start date"
           value={startDate}
@@ -19,7 +19,7 @@ const DatesPicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
           value={endDate}
           onChange={(newEndDate) => setEndDate(newEndDate)}
         />
-      </Stack>
+      </div>
     </LocalizationProvider>
   );
 };
