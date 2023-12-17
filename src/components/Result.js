@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import Stonks from "./Stonks";
 import AudioPlayer from "./AudioPlayer";
 
-import { notes_to_freq_dict, scale_to_notes } from "../utils/notes-frequencies";
-import { dataToNotes, keyRangeToFreq } from "../utils/dataToNotes";
+import { dataToNotes } from "../utils/dataToNotes";
 import { readData } from "../utils/readData";
 
 const Result = ({ settings }) => {
@@ -23,13 +22,16 @@ const Result = ({ settings }) => {
     );
 
     let closeBinnedData = binnedData.map((value) => value.close);
-    let newNoteData = dataToNotes(closeBinnedData, notes_to_freq_dict);
-    setData(() => ({ note: newNoteData, raw: rawData, binned: binnedData }));
 
-    // testing
-    console.log(keyRangeToFreq("Ab", 1, 3, notes_to_freq_dict, scale_to_notes));
+    let newNoteData = dataToNotes(
+      closeBinnedData,
+      settings.scaleKey,
+      settings.startOct,
+      settings.endOct
+    );
+    setData(() => ({ note: newNoteData, raw: rawData, binned: binnedData }));
     setCurrentTime(0);
-  }, [settings.date.start, settings.date.end, settings.sliderValue]);
+  }, [settings]);
 
   return (
     <div className="flex flex-col space-y-4">

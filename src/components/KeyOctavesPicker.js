@@ -32,8 +32,6 @@ const KeyOctavesPicker = ({
     </MenuItem>
   ));
 
-  console.log("scaleKey, startOct,  endOct:", scaleKey, startOct, endOct);
-
   return (
     <div className="flex space-x-4">
       {/* key */}
@@ -45,7 +43,7 @@ const KeyOctavesPicker = ({
           onChange={(e) => setScaleKey(e.target.value)}
         >
           {allKeys.map((curKey, index) => (
-            <MenuItem key={curKey} value={curKey}>
+            <MenuItem key={index} value={curKey}>
               {curKey}
             </MenuItem>
           ))}
