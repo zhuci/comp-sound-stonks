@@ -1,5 +1,4 @@
-// get notes in a key for given octave
-// hardcode c maj rn
+import { notes_to_freq_dict, scale_to_notes } from "../utils/notes-frequencies";
 
 // scale/normalize the data
 function normalizeDataToRange(data, newMin, newMax) {
@@ -55,34 +54,69 @@ function findClosestNote(frequency, notes_dict) {
   return closestNote;
 }
 
-// return array of note freuqncies and array of note names
-export function dataToNotes(data, notesDict) {
-  //  newMin, newMax --> lets do "C2" to "B5"
-  let normalized_data = normalizeDataToRange(data, 65.41, 987.77);
-  return normalized_data.map((value) => {
-    let closest_note = findClosestNote(value, notesDict);
-    return {
-      note: closest_note,
-      freq: notesDict[closest_note],
-    };
-  });
-}
-
 // based on key and range, return dict of major and minor notes and freq
-export function keyRangeToFreq(key, startOct, endOct, notesDict, scalesDict) {
+function keyRangeToFreq(scaleKey, startOct, endOct, notesDict, scalesDict) {
   let major_dict = {};
   let minor_dict = {};
-  let maj_scale = scalesDict[key + "_maj"];
-  let min_scale = scalesDict[key + "_min"];
+  let maj_scale = scalesDict[scaleKey + "_maj"];
+  let min_scale = scalesDict[scaleKey + "_min"];
 
   for (let cur_oct = startOct; cur_oct < endOct + 1; cur_oct++) {
-    for (let cur_note = 0; cur_note < endOct + 7; cur_note++) {
+    for (let cur_note = 0; cur_note < 7; cur_note++) {
       let cur_maj_note = maj_scale[cur_note] + cur_oct;
       let cur_min_note = min_scale[cur_note] + cur_oct;
       major_dict[cur_maj_note] = notesDict[cur_maj_note];
       minor_dict[cur_min_note] = notesDict[cur_min_note];
     }
   }
+  return {
+    major: major_dict,
+    minor: minor_dict,
+    majorMin: notesDict[maj_scale[0] + startOct],
+    majorMax: notesDict[maj_scale[6] + endOct],
+    minorMin: notesDict[min_scale[0] + startOct],
+    minorMax: notesDict[min_scale[6] + endOct],
+  };
+}
 
-  return major_dict, minor_dict;
+// return array of note freuqncies and array of note names
+export function dataToNotes(data, scaleKey, startOct, endOct) {
+  const scales = keyRangeToFreq(
+    scaleKey,
+    startOct,
+    endOct,
+    notes_to_freq_dict,
+    scale_to_notes
+  );
+
+  let normalized_major_data = normalizeDataToRange(
+    data,
+    scales.majorMin,
+    scales.majorMax
+  );
+  let normalized_minor_data = normalizeDataToRange(
+    data,
+    scales.minorMin,
+    scales.minorMax
+  );
+  let output = [];
+
+  for (let i = 0; i < data.length; i++) {
+    // return major if last note or next note is greater (going up)
+    let closest_note = "";
+    let closest_freq = 0;
+    if (i === data.length - 1 || data[i] >= data[i + 1]) {
+      closest_note = findClosestNote(normalized_major_data[i], scales.major);
+      closest_freq = scales.major[closest_note];
+    } else {
+      closest_note = findClosestNote(normalized_minor_data[i], scales.minor);
+      closest_freq = scales.minor[closest_note];
+    }
+    output.push({
+      note: closest_note,
+      freq: closest_freq,
+    });
+  }
+
+  return output;
 }
