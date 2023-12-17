@@ -12,25 +12,17 @@ const releaseConstant = 0.01;
 // const epsilon = 0.001;
 
 const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
-  // create audioCtx and global gain
-  const [audioContext, setAudioContext] = useState(null);
+  // create global gain
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentNote, setCurrentNote] = useState(0);
 
-  const initializeAudioContext = () => {
-    if (!audioContext) {
-      const newAudioContext = new (window.AudioContext ||
-        window.webkitAudioContext)();
-      setAudioContext(newAudioContext);
-    } else {
-      // If AudioContext is suspended, resume it
-      if (audioContext.state === "suspended") {
-        audioContext.resume();
-      }
-    }
-  };
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   useEffect(() => {
-    initializeAudioContext();
-  });
+    if (isPlaying) {
+      playFrequencies();
+    }
+  }, [isPlaying, currentNote]);
 
   const playFrequency = (index, freq, duration) => {
     if (audioContext) {
@@ -72,17 +64,29 @@ const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
   };
 
   const playFrequencies = () => {
-    // initializeAudioContext();
-    noteData.forEach((note, index) => {
+    if (currentNote < noteData.length) {
+      console.log(noteData.length);
+      const note = noteData[currentNote];
+      playFrequency(currentNote, note.freq, noteDuration);
+
       setTimeout(() => {
-        playFrequency(index, note.freq, noteDuration);
-      }, noteDuration * 1000 * index);
-    });
+        setCurrentNote(currentNote + 1);
+      }, noteDuration * 1000);
+    } else {
+      setIsPlaying(false);
+      setCurrentNote(0);
+    }
+  };
+
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying);
   };
 
   return (
     <div>
-      <Button onClick={playFrequencies}>Play Notes</Button>
+      <Button onClick={togglePlayPause}>
+        {isPlaying ? "Pause" : "Play Notes"}
+      </Button>
     </div>
   );
 };
