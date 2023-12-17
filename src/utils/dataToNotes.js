@@ -105,7 +105,7 @@ export function dataToNotes(data, scaleKey, startOct, endOct) {
     // return major if last note or next note is greater (going up)
     let closest_note = "";
     let closest_freq = 0;
-    if (i === data.length - 1 || data[i] >= data[i + 1]) {
+    if (i === data.length - 1 || data[i] <= data[i + 1]) {
       closest_note = findClosestNote(normalized_major_data[i], scales.major);
       closest_freq = scales.major[closest_note];
     } else {

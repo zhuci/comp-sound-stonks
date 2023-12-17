@@ -53,10 +53,10 @@ const Home = () => {
       start: dayjs("2008-09-28"),
       end: dayjs("2009-11-23"),
     },
-    sliderValue: 15,
+    sliderValue: 20,
     scaleKey: "C",
-    startOct: 0,
-    endOct: 8,
+    startOct: 4,
+    endOct: 6,
   };
 
   const {
