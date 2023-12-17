@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Button from "@mui/material/Button";
 
 // const globalGainMax = 0.6;
@@ -12,28 +12,17 @@ const releaseConstant = 0.01;
 // const epsilon = 0.001;
 
 const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
-  // create audioCtx and global gain
-  const [audioContext, setAudioContext] = useState(null);
+  // create global gain
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentNote, setCurrentNote] = useState(0);
 
-  const initializeAudioContext = () => {
-    if (!audioContext) {
-      const newAudioContext = new (window.AudioContext ||
-        window.webkitAudioContext)();
-      setAudioContext(newAudioContext);
-    } else {
-      // If AudioContext is suspended, resume it
-      if (audioContext.state === "suspended") {
-        audioContext.resume();
-      }
-    }
-  };
+  const audioContext = useMemo(() => {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    return new AudioContext();
+  }, []);
 
-  useEffect(() => {
-    initializeAudioContext();
-  });
-
-  const playFrequency = (index, freq, duration) => {
-    if (audioContext) {
+  const playFrequency = useCallback(
+    (index, freq) => {
       onTimeUpdate(index);
       const oscillator = audioContext.createOscillator();
       oscillator.type = "sine";
@@ -66,23 +55,37 @@ const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
         audioContext.currentTime + attackTime + decayTime + noteDuration,
         releaseConstant
       );
-    } else {
-      console.error("AudioContext not initialized");
-    }
-  };
+    },
+    [audioContext, noteDuration, onTimeUpdate]
+  );
 
-  const playFrequencies = () => {
-    // initializeAudioContext();
-    noteData.forEach((note, index) => {
+  const playFrequencies = useCallback(() => {
+    if (currentNote < noteData.length) {
+      const note = noteData[currentNote];
+      playFrequency(currentNote, note.freq);
+
       setTimeout(() => {
-        playFrequency(index, note.freq, noteDuration);
-      }, noteDuration * 1000 * index);
-    });
+        setCurrentNote(currentNote + 1);
+      }, noteDuration * 1000);
+    } else {
+      setIsPlaying(false);
+      setCurrentNote(0);
+    }
+  }, [currentNote, noteData, noteDuration, playFrequency]);
+
+  useEffect(() => {
+    if (isPlaying) {
+      playFrequencies();
+    }
+  }, [isPlaying, playFrequencies]);
+
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying);
   };
 
   return (
     <div>
-      <Button onClick={playFrequencies}>Play Notes</Button>
+      <Button onClick={togglePlayPause}>{isPlaying ? "Pause" : "Play"}</Button>
     </div>
   );
 };
