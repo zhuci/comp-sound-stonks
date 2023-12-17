@@ -20,8 +20,8 @@ const useSettings = (initialSettings) => {
     }));
   };
 
-  const setSliderValue = (sliderValue) => {
-    setSettings((prevSettings) => ({ ...prevSettings, sliderValue }));
+  const setNoteSliderValue = (noteSliderValue) => {
+    setSettings((prevSettings) => ({ ...prevSettings, noteSliderValue }));
   };
 
   const setScaleKey = (scaleKey) => {
@@ -36,14 +36,19 @@ const useSettings = (initialSettings) => {
     setSettings((prevSettings) => ({ ...prevSettings, endOct }));
   };
 
+  const setNoteDuration = (noteDuration) => {
+    setSettings((prevSettings) => ({ ...prevSettings, noteDuration }));
+  };
+
   return {
     settings,
     setStartDate,
     setEndDate,
-    setSliderValue,
+    setNoteSliderValue,
     setScaleKey,
     setStartOct,
     setEndOct,
+    setNoteDuration,
   };
 };
 
@@ -53,20 +58,22 @@ const Home = () => {
       start: dayjs("2008-09-28"),
       end: dayjs("2009-11-23"),
     },
-    sliderValue: 20,
+    noteSliderValue: 20,
     scaleKey: "C",
     startOct: 4,
     endOct: 6,
+    noteDuration: 0.5,
   };
 
   const {
     settings,
     setStartDate,
     setEndDate,
-    setSliderValue,
+    setNoteSliderValue,
     setScaleKey,
     setStartOct,
     setEndOct,
+    setNoteDuration,
   } = useSettings(initialSettings);
 
   return (
@@ -74,16 +81,18 @@ const Home = () => {
       <Settings
         startDate={settings.date.start}
         endDate={settings.date.end}
-        sliderValue={settings.sliderValue}
+        noteSliderValue={settings.noteSliderValue}
         scaleKey={settings.scaleKey}
         startOct={settings.startOct}
         endOct={settings.endOct}
+        noteDuration={settings.noteDuration}
         setStartDate={setStartDate}
         setEndDate={setEndDate}
-        setSliderValue={setSliderValue}
+        setNoteSliderValue={setNoteSliderValue}
         setScaleKey={setScaleKey}
         setStartOct={setStartOct}
         setEndOct={setEndOct}
+        setNoteDuration={setNoteDuration}
       />
       <Result settings={settings} />
     </div>

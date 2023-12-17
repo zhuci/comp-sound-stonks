@@ -18,7 +18,7 @@ const Result = ({ settings }) => {
     const [rawData, binnedData] = readData(
       settings.date.start,
       settings.date.end,
-      settings.sliderValue
+      settings.noteSliderValue
     );
 
     let closeBinnedData = binnedData.map((value) => value.close);
@@ -42,7 +42,7 @@ const Result = ({ settings }) => {
       />
       <AudioPlayer
         noteData={data.note}
-        noteDuration={0.5}
+        noteDuration={settings.noteDuration}
         onTimeUpdate={setCurrentTime}
       />
     </div>
