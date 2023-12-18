@@ -21,14 +21,13 @@ const Result = ({ settings }) => {
       settings.noteSliderValue
     );
 
-    let closeBinnedData = binnedData.map((value) => value.close);
-
     let newNoteData = dataToNotes(
-      closeBinnedData,
+      binnedData,
       settings.scaleKey,
       settings.startOct,
       settings.endOct
     );
+
     setData(() => ({ note: newNoteData, raw: rawData, binned: binnedData }));
     setCurrentTime(0);
   }, [settings]);
