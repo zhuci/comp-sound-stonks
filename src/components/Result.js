@@ -8,7 +8,6 @@ import { readAllData } from "../utils/readData";
 const Result = ({ settings }) => {
   const [data, setData] = useState({
     raw: [],
-    binned: [],
     note: null,
   });
 
@@ -30,7 +29,7 @@ const Result = ({ settings }) => {
       settings.endOct
     );
 
-    setData(() => ({ note: newNoteData, raw: rawData, binned: binnedData }));
+    setData(() => ({ note: newNoteData, raw: rawData }));
     setCurrentTime(0);
   }, [
     settings.noteSliderValue,
@@ -44,7 +43,7 @@ const Result = ({ settings }) => {
     <div className="flex flex-col space-y-4">
       <Stonks
         data={data.raw}
-        notePoints={data.binned}
+        notePoints={data.note}
         currentTime={currentTime}
       />
       <AudioPlayer

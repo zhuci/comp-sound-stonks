@@ -27,7 +27,6 @@ const CustomLabel = ({ viewBox, value }) => {
 };
 
 const Stonks = ({ data, notePoints, currentTime }) => {
-  // console.log(notePoints);
   const formatDate = (date) => {
     const d = new Date(date);
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
@@ -40,19 +39,18 @@ const Stonks = ({ data, notePoints, currentTime }) => {
     const notePoint = notePoints.find(
       (note) => note.datetime_str === item.datetime_str
     );
-    return notePoint ? { ...item, note: notePoint.close } : item;
+    return notePoint
+      ? { ...item, filtered: notePoint.close, note: notePoint.note }
+      : item;
   });
 
-  let filteredData = data.filter((item) => item.note !== undefined);
+  let filteredData = data.filter((item) => item.filtered !== undefined);
   let currentDatetimeStr = filteredData[currentTime]?.datetime_str;
 
   return (
     <div className="w-3/4">
       <ResponsiveContainer height={300}>
-        <LineChart
-          data={data}
-          // margin={{ top: 0, right: 0, left: 0, bottom: 20 }}
-        >
+        <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
 
           <XAxis
@@ -71,7 +69,7 @@ const Stonks = ({ data, notePoints, currentTime }) => {
           <Line
             connectNulls
             type="monotone"
-            dataKey="note"
+            dataKey="filtered"
             stroke="#82ca9d"
             dot={{ fill: "#82ca9d", r: 4 }}
           />
@@ -85,7 +83,7 @@ const Stonks = ({ data, notePoints, currentTime }) => {
                 stroke="white"
                 fill="white"
                 isFront={true}
-                label={<CustomLabel value={index} />}
+                label={<CustomLabel value={`${entry.note}`} />}
                 shape={({ cx, cy }) => (
                   <circle cx={cx} cy={cy} r={20} fill="white" />
                 )}
