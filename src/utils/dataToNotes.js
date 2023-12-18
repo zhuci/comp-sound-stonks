@@ -1,43 +1,15 @@
 import { notes_to_freq_dict, scale_to_notes } from "../utils/notes-frequencies";
 
 // scale/normalize the data
-function normalizeDataToRange(data, newMin, newMax) {
-  let min = Math.min(...data);
-  let max = Math.max(...data);
+function normalizeDataToRange(data, field, newMin, newMax) {
+  let min = Math.min(...data.map((item) => item[field]));
+  let max = Math.max(...data.map((item) => item[field]));
 
-  return data.map((value) => {
-    let normalized = (value - min) / (max - min); // Normalize between 0 and 1
+  return data.map((item) => {
+    let normalized = (item[field] - min) / (max - min); // Normalize between 0 and 1
     return normalized * (newMax - newMin) + newMin; // Scale to new range
   });
 }
-
-// octaves from C0
-// function calculateNoteFrequencies(octaves) {
-//   const A4 = 440.0;
-//   let notes = {};
-//   const noteNames = [
-//     "C",
-//     "C#",
-//     "D",
-//     "D#",
-//     "E",
-//     "F",
-//     "F#",
-//     "G",
-//     "G#",
-//     "A",
-//     "A#",
-//     "B",
-//   ];
-
-//   for (let i = 0; i < octaves * 12; i++) {
-//     const noteFrequency = A4 * Math.pow(2, (i - 57) / 12);
-//     const noteName = noteNames[i % 12] + Math.floor(i / 12);
-//     notes[noteName] = noteFrequency;
-//   }
-
-//   return notes;
-// }
 
 function findClosestNote(frequency, notes_dict) {
   let closestNote = "";
@@ -91,21 +63,24 @@ export function dataToNotes(data, scaleKey, startOct, endOct) {
 
   let normalized_major_data = normalizeDataToRange(
     data,
+    "close",
     scales.majorMin,
     scales.majorMax
   );
   let normalized_minor_data = normalizeDataToRange(
     data,
+    "close",
     scales.minorMin,
     scales.minorMax
   );
+  let normalized_volume_data = normalizeDataToRange(data, "volume", 0.1, 0.8);
   let output = [];
 
   for (let i = 0; i < data.length; i++) {
     // return major if last note or next note is greater (going up)
     let closest_note = "";
     let closest_freq = 0;
-    if (i === data.length - 1 || data[i] <= data[i + 1]) {
+    if (i === data.length - 1 || data[i].close <= data[i + 1].close) {
       closest_note = findClosestNote(normalized_major_data[i], scales.major);
       closest_freq = scales.major[closest_note];
     } else {
@@ -115,6 +90,7 @@ export function dataToNotes(data, scaleKey, startOct, endOct) {
     output.push({
       note: closest_note,
       freq: closest_freq,
+      volume: normalized_volume_data[i],
     });
   }
 

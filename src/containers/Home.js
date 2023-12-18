@@ -40,6 +40,10 @@ const useSettings = (initialSettings) => {
     setSettings((prevSettings) => ({ ...prevSettings, noteDuration }));
   };
 
+  const setVolumeChange = (volumeChange) => {
+    setSettings((prevSettings) => ({ ...prevSettings, volumeChange }));
+  };
+
   return {
     settings,
     setStartDate,
@@ -49,6 +53,7 @@ const useSettings = (initialSettings) => {
     setStartOct,
     setEndOct,
     setNoteDuration,
+    setVolumeChange,
   };
 };
 
@@ -63,6 +68,7 @@ const Home = () => {
     startOct: 4,
     endOct: 6,
     noteDuration: 0.5,
+    volumeChange: false,
   };
 
   const {
@@ -74,6 +80,7 @@ const Home = () => {
     setStartOct,
     setEndOct,
     setNoteDuration,
+    setVolumeChange,
   } = useSettings(initialSettings);
 
   return (
@@ -86,6 +93,7 @@ const Home = () => {
         startOct={settings.startOct}
         endOct={settings.endOct}
         noteDuration={settings.noteDuration}
+        volumeChange={settings.volumeChange}
         setStartDate={setStartDate}
         setEndDate={setEndDate}
         setNoteSliderValue={setNoteSliderValue}
@@ -93,6 +101,7 @@ const Home = () => {
         setStartOct={setStartOct}
         setEndOct={setEndOct}
         setNoteDuration={setNoteDuration}
+        setVolumeChange={setVolumeChange}
       />
       <Result settings={settings} />
     </div>
