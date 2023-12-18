@@ -77,7 +77,7 @@ const Settings = ({
         <br />
         <sup>2</sup> Sound volume based on trading volume
         <br />
-        <sup>3</sup> larger high - low price difference equals more partials
+        <sup>3</sup> Larger (high-low) price difference equals more partials
       </Typography>
     </div>
   );
