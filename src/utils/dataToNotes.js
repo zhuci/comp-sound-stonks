@@ -88,6 +88,8 @@ export function dataToNotes(data, scaleKey, startOct, endOct) {
       closest_freq = scales.minor[closest_note];
     }
     output.push({
+      close: data[i].close,
+      datetime_str: data[i].datetime_str,
       note: closest_note,
       freq: closest_freq,
       volume: normalized_volume_data[i],

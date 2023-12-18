@@ -7,7 +7,24 @@ import {
   CartesianGrid,
   ReferenceLine,
   ResponsiveContainer,
+  ReferenceDot,
 } from "recharts";
+
+const CustomLabel = ({ viewBox, value }) => {
+  const { x, y, width, height } = viewBox;
+
+  return (
+    <text
+      x={x + width / 2}
+      y={y + height / 2}
+      fill="#82ca9d"
+      textAnchor="middle"
+      dominantBaseline="middle"
+    >
+      {value}
+    </text>
+  );
+};
 
 const Stonks = ({ data, notePoints, currentTime }) => {
   const formatDate = (date) => {
@@ -22,10 +39,12 @@ const Stonks = ({ data, notePoints, currentTime }) => {
     const notePoint = notePoints.find(
       (note) => note.datetime_str === item.datetime_str
     );
-    return notePoint ? { ...item, note: notePoint.close } : item;
+    return notePoint
+      ? { ...item, filtered: notePoint.close, note: notePoint.note }
+      : item;
   });
 
-  let filteredData = data.filter((item) => item.note !== undefined);
+  let filteredData = data.filter((item) => item.filtered !== undefined);
   let currentDatetimeStr = filteredData[currentTime]?.datetime_str;
 
   return (
@@ -33,13 +52,14 @@ const Stonks = ({ data, notePoints, currentTime }) => {
       <ResponsiveContainer height={300}>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
+
           <XAxis
             dataKey="datetime_str"
             tickFormatter={formatDate}
             minTickGap={25}
             interval="preserveStart"
-          />
-          <YAxis type="number" domain={["auto", "auto"]} />
+          ></XAxis>
+          <YAxis type="number" domain={["auto", "dataMax + 15"]} />
           <Line
             type="monotone"
             dataKey="close"
@@ -49,11 +69,27 @@ const Stonks = ({ data, notePoints, currentTime }) => {
           <Line
             connectNulls
             type="monotone"
-            dataKey="note"
+            dataKey="filtered"
             stroke="#82ca9d"
             dot={{ fill: "#82ca9d", r: 4 }}
           />
           <ReferenceLine x={currentDatetimeStr} stroke="#82ca9d" />
+          {filteredData.map((entry, index) =>
+            index === currentTime ? (
+              <ReferenceDot
+                key={`tooltip-${index}`}
+                x={entry.datetime_str}
+                y={entry.close + 15}
+                stroke="white"
+                fill="white"
+                isFront={true}
+                label={<CustomLabel value={`${entry.note}`} />}
+                shape={({ cx, cy }) => (
+                  <circle cx={cx} cy={cy} r={20} fill="white" />
+                )}
+              />
+            ) : null
+          )}
         </LineChart>
       </ResponsiveContainer>
     </div>
