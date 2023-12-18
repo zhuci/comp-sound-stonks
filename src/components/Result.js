@@ -23,14 +23,13 @@ const Result = ({ settings }) => {
     const binnedData = allStockData[settings.noteSliderValue];
     const rawData = allStockData["raw_data"];
 
-    let closeBinnedData = binnedData.map((value) => value.close);
-
     let newNoteData = dataToNotes(
-      closeBinnedData,
+      binnedData,
       settings.scaleKey,
       settings.startOct,
       settings.endOct
     );
+
     setData(() => ({ note: newNoteData, raw: rawData, binned: binnedData }));
     setCurrentTime(0);
   }, [
@@ -52,6 +51,7 @@ const Result = ({ settings }) => {
         noteData={data.note}
         noteDuration={settings.noteDuration}
         onTimeUpdate={setCurrentTime}
+        volumeChange={settings.volumeChange}
       />
     </div>
   );

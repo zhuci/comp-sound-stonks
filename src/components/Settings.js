@@ -2,8 +2,8 @@ import React from "react";
 import DatesPicker from "./DatesPicker";
 import NoteSlider from "./NoteSlider";
 import NoteDurationSlider from "./NoteDurationSlider";
-
 import KeyOctavesPicker from "./KeyOctavesPicker";
+import VolumeToggle from "./VolumeToggle";
 
 const Settings = ({
   startDate,
@@ -13,6 +13,7 @@ const Settings = ({
   startOct,
   endOct,
   noteDuration,
+  volumeChange,
   setStartDate,
   setEndDate,
   setNoteSliderValue,
@@ -20,6 +21,7 @@ const Settings = ({
   setStartOct,
   setEndOct,
   setNoteDuration,
+  setVolumeChange,
 }) => {
   return (
     <div className="flex flex-col space-y-4">
@@ -44,6 +46,10 @@ const Settings = ({
         setScaleKey={setScaleKey}
         setStartOct={setStartOct}
         setEndOct={setEndOct}
+      />
+      <VolumeToggle
+        volumeChange={volumeChange}
+        setVolumeChange={setVolumeChange}
       />
     </div>
   );

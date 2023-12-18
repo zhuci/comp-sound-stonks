@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Button from "@mui/material/Button";
 
-// const globalGainMax = 0.6;
+const globalGainValue = 0.8;
 const attackMaxGain = 0.5;
 const attackConstant = 0.002;
 const attackTime = 0.01;
@@ -11,7 +11,12 @@ const sustainGain = 0.3;
 const releaseConstant = 0.01;
 // const epsilon = 0.001;
 
-const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
+const AudioPlayer = ({
+  noteData,
+  noteDuration,
+  onTimeUpdate,
+  volumeChange,
+}) => {
   // create global gain
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentNote, setCurrentNote] = useState(0);
@@ -21,8 +26,15 @@ const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
     return new AudioContext();
   }, []);
 
-  const playFrequency = useCallback(
-    (index, freq) => {
+  const globalGain = useMemo(() => {
+    const glbGain = audioContext.createGain();
+    glbGain.gain.setValueAtTime(globalGainValue, audioContext.currentTime);
+    glbGain.connect(audioContext.destination);
+    return glbGain;
+  }, [audioContext]);
+
+  const playNote = useCallback(
+    (index, freq, volume) => {
       onTimeUpdate(index);
       const oscillator = audioContext.createOscillator();
       oscillator.type = "sine";
@@ -35,18 +47,18 @@ const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
       // ADSR Attack
       gainNode.gain.setValueAtTime(0.001, audioContext.currentTime);
       gainNode.gain.setTargetAtTime(
-        attackMaxGain,
+        attackMaxGain * volume,
         audioContext.currentTime,
         attackConstant
       );
       // ADSR Decay
       gainNode.gain.setTargetAtTime(
-        sustainGain,
+        sustainGain * volume,
         audioContext.currentTime + attackTime,
         decayConstant
       );
 
-      oscillator.connect(gainNode).connect(audioContext.destination);
+      oscillator.connect(gainNode).connect(globalGain);
       oscillator.start();
 
       // ADSR Sustain + Release
@@ -56,13 +68,14 @@ const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
         releaseConstant
       );
     },
-    [audioContext, noteDuration, onTimeUpdate]
+    [audioContext, noteDuration, onTimeUpdate, globalGain]
   );
 
-  const playFrequencies = useCallback(() => {
+  const playNotes = useCallback(() => {
     if (currentNote < noteData.length) {
       const note = noteData[currentNote];
-      playFrequency(currentNote, note.freq);
+
+      playNote(currentNote, note.freq, volumeChange ? note.volume : 1);
 
       setTimeout(() => {
         setCurrentNote(currentNote + 1);
@@ -71,13 +84,13 @@ const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
       setIsPlaying(false);
       setCurrentNote(0);
     }
-  }, [currentNote, noteData, noteDuration, playFrequency]);
+  }, [currentNote, noteData, noteDuration, playNote, volumeChange]);
 
   useEffect(() => {
     if (isPlaying) {
-      playFrequencies();
+      playNotes();
     }
-  }, [isPlaying, playFrequencies]);
+  }, [isPlaying, playNotes]);
 
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
