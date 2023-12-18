@@ -43,6 +43,7 @@ const Result = ({ settings }) => {
         noteData={data.note}
         noteDuration={settings.noteDuration}
         onTimeUpdate={setCurrentTime}
+        volumeChange={settings.volumeChange}
       />
     </div>
   );

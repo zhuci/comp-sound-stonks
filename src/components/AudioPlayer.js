@@ -11,7 +11,12 @@ const sustainGain = 0.3;
 const releaseConstant = 0.01;
 // const epsilon = 0.001;
 
-const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
+const AudioPlayer = ({
+  noteData,
+  noteDuration,
+  onTimeUpdate,
+  volumeChange,
+}) => {
   // create global gain
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentNote, setCurrentNote] = useState(0);
@@ -27,18 +32,6 @@ const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
     glbGain.connect(audioContext.destination);
     return glbGain;
   }, [audioContext]);
-
-  // const noteDataToVolume = useCallback(
-  //   (note) => {
-  //     // given the range of "volume" in noteData, scale the "volume" of this note to [0.1, 0.9]
-  //     const minVolume = Math.min(...noteData.map((note) => note.volume));
-  //     const maxVolume = Math.max(...noteData.map((note) => note.volume));
-  //     const volume = (note.volume - minVolume) / (maxVolume - minVolume);
-  //     console.log(note, volume * 0.8 + 0.1);
-  //     return volume * 0.8 + 0.1;
-  //   },
-  //   [noteData]
-  // );
 
   const playNote = useCallback(
     (index, freq, volume) => {
@@ -81,7 +74,8 @@ const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
   const playNotes = useCallback(() => {
     if (currentNote < noteData.length) {
       const note = noteData[currentNote];
-      playNote(currentNote, note.freq, note.volume);
+
+      playNote(currentNote, note.freq, volumeChange ? note.volume : 1);
 
       setTimeout(() => {
         setCurrentNote(currentNote + 1);
@@ -90,7 +84,7 @@ const AudioPlayer = ({ noteData, noteDuration, onTimeUpdate }) => {
       setIsPlaying(false);
       setCurrentNote(0);
     }
-  }, [currentNote, noteData, noteDuration, playNote]);
+  }, [currentNote, noteData, noteDuration, playNote, volumeChange]);
 
   useEffect(() => {
     if (isPlaying) {
