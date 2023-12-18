@@ -4,6 +4,7 @@ import NoteSlider from "./NoteSlider";
 import NoteDurationSlider from "./NoteDurationSlider";
 import KeyOctavesPicker from "./KeyOctavesPicker";
 import VolumeToggle from "./VolumeToggle";
+import AdditiveSynthesisToggle from "./AdditiveSynthesisToggle";
 
 const Settings = ({
   startDate,
@@ -14,6 +15,7 @@ const Settings = ({
   endOct,
   noteDuration,
   volumeChange,
+  additiveSynthesis,
   setStartDate,
   setEndDate,
   setNoteSliderValue,
@@ -22,6 +24,7 @@ const Settings = ({
   setEndOct,
   setNoteDuration,
   setVolumeChange,
+  setAdditiveSynthesis,
 }) => {
   return (
     <div className="flex flex-col space-y-4">
@@ -50,6 +53,10 @@ const Settings = ({
       <VolumeToggle
         volumeChange={volumeChange}
         setVolumeChange={setVolumeChange}
+      />
+      <AdditiveSynthesisToggle
+        additiveSynthesis={additiveSynthesis}
+        setAdditiveSynthesis={setAdditiveSynthesis}
       />
     </div>
   );

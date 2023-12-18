@@ -51,6 +51,7 @@ const Result = ({ settings }) => {
         noteDuration={settings.noteDuration}
         onTimeUpdate={setCurrentTime}
         volumeChange={settings.volumeChange}
+        additiveSynthesis={settings.additiveSynthesis}
       />
     </div>
   );

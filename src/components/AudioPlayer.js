@@ -16,6 +16,7 @@ const AudioPlayer = ({
   noteDuration,
   onTimeUpdate,
   volumeChange,
+  additiveSynthesis,
 }) => {
   // create global gain
   const [isPlaying, setIsPlaying] = useState(false);
@@ -95,7 +96,7 @@ const AudioPlayer = ({
         currentNote,
         note.freq,
         volumeChange ? note.volume : 1,
-        Math.round(note.price_change)
+        additiveSynthesis ? Math.round(note.price_change) : 0
       );
 
       setTimeout(() => {
@@ -105,7 +106,14 @@ const AudioPlayer = ({
       setIsPlaying(false);
       setCurrentNote(0);
     }
-  }, [currentNote, noteData, noteDuration, playNote, volumeChange]);
+  }, [
+    currentNote,
+    noteData,
+    noteDuration,
+    playNote,
+    volumeChange,
+    additiveSynthesis,
+  ]);
 
   useEffect(() => {
     if (isPlaying) {
