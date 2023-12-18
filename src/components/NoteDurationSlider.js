@@ -13,7 +13,7 @@ const NoteDurationSlider = ({ sliderValue, setSliderValue }) => {
         <Slider
           value={sliderValue}
           onChange={(_, newValue) => setSliderValue(newValue)}
-          min={0}
+          min={0.1}
           max={1}
           defaultValue={0.5}
           step={0.1}

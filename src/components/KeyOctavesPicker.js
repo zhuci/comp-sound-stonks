@@ -26,16 +26,16 @@ const KeyOctavesPicker = ({
     "G",
     "Ab",
   ];
-  const octaveItems = Array.from({ length: 11 }, (_, index) => (
+  const octaveItems = Array.from({ length: 9 }, (_, index) => (
     <MenuItem key={index} value={index}>
       {index}
     </MenuItem>
   ));
 
   return (
-    <div className="flex space-x-4">
+    <div className="">
       {/* key */}
-      <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+      <FormControl sx={{ mr: 2, minWidth: 150 }} size="small">
         <InputLabel>Key</InputLabel>
         <Select
           value={scaleKey}
@@ -50,7 +50,7 @@ const KeyOctavesPicker = ({
         </Select>
       </FormControl>
       {/* starting octave */}
-      <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+      <FormControl sx={{ mr: 2, minWidth: 150 }} size="small">
         <InputLabel>Start Octave</InputLabel>
         <Select
           value={startOct}
@@ -61,7 +61,7 @@ const KeyOctavesPicker = ({
         </Select>
       </FormControl>
       {/* ending octave */}
-      <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+      <FormControl sx={{ mr: 2, minWidth: 150 }} size="small">
         <InputLabel>End Octave</InputLabel>
         <Select
           value={endOct}

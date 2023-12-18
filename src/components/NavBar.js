@@ -18,10 +18,6 @@ const NavBar = () => {
       url: "/blog",
     },
   ];
-  console.log(
-    "window.location.pathname !== section.url ",
-    window.location.pathname
-  );
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -35,29 +31,17 @@ const NavBar = () => {
             STONKS
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {/* <Button key={0} sx={{ color: "#fff" }}>
-              <Link to="/">Home</Link>
-            </Button>
-            <Button key={1} sx={{ color: "#fff" }}>
-              <Link to="/blog">Blog</Link>
-            </Button> */}
-            {/* <Button key={2} sx={{ color: "#fff" }}>
-              <Link to="https://github.com/zhuci/comp-sound-stonks">
-                Github
-              </Link>
-            </Button> */}
-
             {sections.map((section, index) => (
               <Link to={section.url}>
                 {window.location.pathname ===
                   "/comp-sound-stonks" + section.url ||
                 (section.url === "/" &&
                   window.location.pathname === "/comp-sound-stonks") ? (
-                  <Button key={index} sx={{ color: "#82ca9d" }}>
+                  <Button key={index} sx={{ color: "#82ca9d" }} variant="text">
                     {section.title}
                   </Button>
                 ) : (
-                  <Button key={index} sx={{ color: "#fff" }}>
+                  <Button key={index} sx={{ color: "#fff" }} variant="text">
                     {section.title}
                   </Button>
                 )}
