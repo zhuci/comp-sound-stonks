@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import dayjs from "dayjs";
 import Settings from "../components/Settings";
 import Result from "../components/Result";
+import NavBar from "../components/NavBar";
 
 const useSettings = (initialSettings) => {
   const [settings, setSettings] = useState(initialSettings);
@@ -78,23 +79,26 @@ const Home = () => {
 
   return (
     <div className="flex flex-col m-8 space-y-4">
-      <Settings
-        startDate={settings.date.start}
-        endDate={settings.date.end}
-        noteSliderValue={settings.noteSliderValue}
-        scaleKey={settings.scaleKey}
-        startOct={settings.startOct}
-        endOct={settings.endOct}
-        noteDuration={settings.noteDuration}
-        setStartDate={setStartDate}
-        setEndDate={setEndDate}
-        setNoteSliderValue={setNoteSliderValue}
-        setScaleKey={setScaleKey}
-        setStartOct={setStartOct}
-        setEndOct={setEndOct}
-        setNoteDuration={setNoteDuration}
-      />
-      <Result settings={settings} />
+      <NavBar />
+      <div className="pt-10">
+        <Settings
+          startDate={settings.date.start}
+          endDate={settings.date.end}
+          noteSliderValue={settings.noteSliderValue}
+          scaleKey={settings.scaleKey}
+          startOct={settings.startOct}
+          endOct={settings.endOct}
+          noteDuration={settings.noteDuration}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+          setNoteSliderValue={setNoteSliderValue}
+          setScaleKey={setScaleKey}
+          setStartOct={setStartOct}
+          setEndOct={setEndOct}
+          setNoteDuration={setNoteDuration}
+        />
+        <Result settings={settings} />
+      </div>
     </div>
   );
 };
