@@ -21,7 +21,6 @@ const Result = ({ settings }) => {
   useEffect(() => {
     const binnedData = allStockData[settings.noteSliderValue];
     const rawData = allStockData["raw_data"];
-    console.log("settings", settings);
     let newNoteData = dataToNotes(
       binnedData,
       settings.scaleKey,

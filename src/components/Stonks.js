@@ -52,8 +52,8 @@ const Stonks = ({ data, notePoints, currentTime }) => {
   let currentDatetimeStr = filteredData[currentTime]?.datetime_str;
 
   return (
-    <div className="w-3/4">
-      <ResponsiveContainer height={300}>
+    <div className="">
+      <ResponsiveContainer height={400}>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
 
