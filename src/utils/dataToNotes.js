@@ -52,7 +52,7 @@ function keyRangeToFreq(scaleKey, startOct, endOct, notesDict, scalesDict) {
 }
 
 // return array of note freuqncies and array of note names
-export function dataToNotes(data, scaleKey, startOct, endOct) {
+export function dataToNotes(data, scaleKey, keyType, startOct, endOct) {
   const scales = keyRangeToFreq(
     scaleKey,
     startOct,
@@ -77,16 +77,37 @@ export function dataToNotes(data, scaleKey, startOct, endOct) {
   let output = [];
 
   for (let i = 0; i < data.length; i++) {
-    // return major if last note or next note is greater (going up)
+    let closest_major_note = findClosestNote(
+      normalized_major_data[i],
+      scales.major
+    );
+    let closest_minor_note = findClosestNote(
+      normalized_minor_data[i],
+      scales.minor
+    );
+    let closest_major_freq = scales.major[closest_major_note];
+    let closest_minor_freq = scales.minor[closest_minor_note];
+
     let closest_note = "";
     let closest_freq = 0;
-    if (i === data.length - 1 || data[i].close <= data[i + 1].close) {
-      closest_note = findClosestNote(normalized_major_data[i], scales.major);
-      closest_freq = scales.major[closest_note];
+
+    if (keyType === "major") {
+      closest_note = closest_major_note;
+      closest_freq = closest_major_freq;
+    } else if (keyType === "minor") {
+      closest_note = closest_minor_note;
+      closest_freq = closest_minor_freq;
     } else {
-      closest_note = findClosestNote(normalized_minor_data[i], scales.minor);
-      closest_freq = scales.minor[closest_note];
+      // return major if cur note >= prev note (going up)
+      if (i === 0 || data[i].close >= data[i - 1].close) {
+        closest_note = closest_major_note;
+        closest_freq = closest_major_freq;
+      } else {
+        closest_note = closest_minor_note;
+        closest_freq = closest_minor_freq;
+      }
     }
+
     output.push({
       close: data[i].close,
       datetime_str: data[i].datetime_str,

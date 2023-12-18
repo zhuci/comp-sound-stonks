@@ -6,9 +6,11 @@ import Select from "@mui/material/Select";
 
 const KeyOctavesPicker = ({
   scaleKey,
+  keyType,
   startOct,
   endOct,
   setScaleKey,
+  setKeyType,
   setStartOct,
   setEndOct,
 }) => {
@@ -47,6 +49,25 @@ const KeyOctavesPicker = ({
               {curKey}
             </MenuItem>
           ))}
+        </Select>
+      </FormControl>
+      {/* all major, all minor or both */}
+      <FormControl sx={{ mr: 2, minWidth: 150 }} size="small">
+        <InputLabel>Type of Key</InputLabel>
+        <Select
+          value={keyType}
+          label="Type of Key"
+          onChange={(e) => setKeyType(e.target.value)}
+        >
+          <MenuItem key={0} value={"major"}>
+            Major
+          </MenuItem>
+          <MenuItem key={1} value={"minor"}>
+            Minor
+          </MenuItem>
+          <MenuItem key={2} value={"both"}>
+            Both
+          </MenuItem>
         </Select>
       </FormControl>
       {/* starting octave */}

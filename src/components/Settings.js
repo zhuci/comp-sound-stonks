@@ -10,6 +10,7 @@ const Settings = ({
   endDate,
   noteSliderValue,
   scaleKey,
+  keyType,
   startOct,
   endOct,
   noteDuration,
@@ -18,6 +19,7 @@ const Settings = ({
   setEndDate,
   setNoteSliderValue,
   setScaleKey,
+  setKeyType,
   setStartOct,
   setEndOct,
   setNoteDuration,
@@ -41,9 +43,11 @@ const Settings = ({
       />
       <KeyOctavesPicker
         scaleKey={scaleKey}
+        keyType={keyType}
         startOct={startOct}
         endOct={endOct}
         setScaleKey={setScaleKey}
+        setKeyType={setKeyType}
         setStartOct={setStartOct}
         setEndOct={setEndOct}
       />

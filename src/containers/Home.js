@@ -38,6 +38,7 @@ const Home = () => {
     },
     noteSliderValue: 20,
     scaleKey: "C",
+    keyType: "both",
     startOct: 4,
     endOct: 6,
     noteDuration: 0.5,
@@ -48,14 +49,15 @@ const Home = () => {
     useSettings(initialSettings);
 
   return (
-    <div className="flex flex-col m-8 space-y-4">
+    <div className="flex m-8 space-y-4">
       <NavBar />
-      <div className="pt-10">
+      <div className="flex-col w-1/3 pt-10">
         <Settings
           startDate={settings.date.start}
           endDate={settings.date.end}
           noteSliderValue={settings.noteSliderValue}
           scaleKey={settings.scaleKey}
+          keyType={settings.keyType}
           startOct={settings.startOct}
           endOct={settings.endOct}
           noteDuration={settings.noteDuration}
@@ -66,11 +68,14 @@ const Home = () => {
             updateSetting("noteSliderValue", value)
           }
           setScaleKey={(value) => updateSetting("scaleKey", value)}
+          setKeyType={(value) => updateSetting("keyType", value)}
           setStartOct={(value) => updateSetting("startOct", value)}
           setEndOct={(value) => updateSetting("endOct", value)}
           setNoteDuration={(value) => updateSetting("noteDuration", value)}
           setVolumeChange={(value) => updateSetting("volumeChange", value)}
         />
+      </div>
+      <div className="w-2/3 pt-10">
         <Result settings={settings} />
       </div>
     </div>
