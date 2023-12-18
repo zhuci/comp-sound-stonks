@@ -62,6 +62,7 @@ const Home = () => {
           endOct={settings.endOct}
           noteDuration={settings.noteDuration}
           volumeChange={settings.volumeChange}
+          additiveSynthesis={settings.additiveSynthesis}
           setStartDate={setStartDate}
           setEndDate={setEndDate}
           setNoteSliderValue={(value) =>
@@ -73,6 +74,9 @@ const Home = () => {
           setEndOct={(value) => updateSetting("endOct", value)}
           setNoteDuration={(value) => updateSetting("noteDuration", value)}
           setVolumeChange={(value) => updateSetting("volumeChange", value)}
+          setAdditiveSynthesis={(value) =>
+            updateSetting("additiveSynthesis", value)
+          }
         />
       </div>
       <div className="w-2/3 pt-10">

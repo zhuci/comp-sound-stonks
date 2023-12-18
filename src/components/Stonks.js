@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  LineChart,
+  ComposedChart,
   Line,
   XAxis,
   YAxis,
@@ -8,6 +8,7 @@ import {
   ReferenceLine,
   ResponsiveContainer,
   ReferenceDot,
+  Area,
 } from "recharts";
 import { COLORS } from "../values/colors";
 import { useTheme } from "@mui/material/styles";
@@ -19,7 +20,7 @@ const CustomLabel = ({ viewBox, value }) => {
     <text
       x={x + width / 2}
       y={y + height / 2}
-      fill={COLORS.green}
+      fill={COLORS.orange}
       textAnchor="middle"
       dominantBaseline="middle"
     >
@@ -30,7 +31,6 @@ const CustomLabel = ({ viewBox, value }) => {
 
 const Stonks = ({ data, notePoints, currentTime }) => {
   const theme = useTheme();
-  console.log("theme", theme.palette.background.default);
   const formatDate = (date) => {
     const d = new Date(date);
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
@@ -54,7 +54,14 @@ const Stonks = ({ data, notePoints, currentTime }) => {
   return (
     <div className="">
       <ResponsiveContainer height={400}>
-        <LineChart data={data}>
+        <ComposedChart data={data}>
+          <defs>
+            <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor={COLORS.blue} stopOpacity={1} />
+              <stop offset="95%" stopColor={COLORS.blue} stopOpacity={0.1} />
+            </linearGradient>
+          </defs>
+
           <CartesianGrid strokeDasharray="3 3" />
 
           <XAxis
@@ -64,20 +71,22 @@ const Stonks = ({ data, notePoints, currentTime }) => {
             interval="preserveStart"
           ></XAxis>
           <YAxis type="number" domain={["auto", "dataMax + 15"]} />
-          <Line
+          <Area
+            connectNulls
             type="monotone"
             dataKey="close"
             stroke={COLORS.white}
+            fill="url(#blueGradient)" // Add this line to fill the area under the line
             dot={{ fill: COLORS.white, r: 0 }}
           />
           <Line
             connectNulls
             type="monotone"
             dataKey="filtered"
-            stroke={COLORS.green}
-            dot={{ fill: COLORS.green, r: 4 }}
+            stroke={COLORS.orange}
+            dot={{ fill: COLORS.orange, r: 4 }}
           />
-          <ReferenceLine x={currentDatetimeStr} stroke={COLORS.green} />
+          <ReferenceLine x={currentDatetimeStr} stroke={COLORS.orange} />
           {filteredData.map((entry, index) =>
             index === currentTime ? (
               <ReferenceDot
@@ -99,7 +108,7 @@ const Stonks = ({ data, notePoints, currentTime }) => {
               />
             ) : null
           )}
-        </LineChart>
+        </ComposedChart>
       </ResponsiveContainer>
     </div>
   );
