@@ -9,7 +9,7 @@ const VolumeToggle = ({ volumeChange, setVolumeChange }) => {
   return (
     <div>
       <label>
-        Volume Change
+        Volume Change<sup>2</sup>
         <Switch
           checked={volumeChange}
           onChange={toggleVolumeChange}

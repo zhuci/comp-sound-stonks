@@ -12,7 +12,7 @@ const AdditiveSynthesisToggle = ({
   return (
     <div>
       <label>
-        Additive Synthesis
+        Additive Synthesis<sup>3</sup>
         <Switch
           checked={additiveSynthesis}
           onChange={toggleAdditiveSynthesis}

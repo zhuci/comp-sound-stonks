@@ -5,11 +5,11 @@ import Box from "@mui/material/Box";
 
 const NoteSlider = ({ sliderValue, setSliderValue }) => {
   return (
-    <Box marginBottom={2}>
+    <Box marginBottom={1}>
       <Typography id="number-of-notes" gutterBottom>
         Number of Notes:
       </Typography>
-      <Box width={300} marginLeft={2}>
+      <Box marginLeft={2}>
         <Slider
           value={sliderValue}
           onChange={(_, newValue) => setSliderValue(newValue)}

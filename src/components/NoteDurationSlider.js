@@ -5,11 +5,11 @@ import Box from "@mui/material/Box";
 
 const NoteDurationSlider = ({ sliderValue, setSliderValue }) => {
   return (
-    <Box marginBottom={2}>
+    <Box marginBottom={1}>
       <Typography id="number-of-notes" gutterBottom>
-        Note Duration:
+        Note Duration (in seconds):
       </Typography>
-      <Box width={300} marginLeft={2}>
+      <Box marginLeft={2}>
         <Slider
           value={sliderValue}
           onChange={(_, newValue) => setSliderValue(newValue)}
