@@ -6,54 +6,26 @@ import Result from "../components/Result";
 const useSettings = (initialSettings) => {
   const [settings, setSettings] = useState(initialSettings);
 
-  const setStartDate = (start) => {
+  const updateSetting = (key, value) => {
     setSettings((prevSettings) => ({
       ...prevSettings,
-      date: { ...prevSettings.date, start },
+      [key]: value,
     }));
+  };
+
+  const setStartDate = (start) => {
+    updateSetting("date", { ...settings.date, start });
   };
 
   const setEndDate = (end) => {
-    setSettings((prevSettings) => ({
-      ...prevSettings,
-      date: { ...prevSettings.date, end },
-    }));
-  };
-
-  const setNoteSliderValue = (noteSliderValue) => {
-    setSettings((prevSettings) => ({ ...prevSettings, noteSliderValue }));
-  };
-
-  const setScaleKey = (scaleKey) => {
-    setSettings((prevSettings) => ({ ...prevSettings, scaleKey }));
-  };
-
-  const setStartOct = (startOct) => {
-    setSettings((prevSettings) => ({ ...prevSettings, startOct }));
-  };
-
-  const setEndOct = (endOct) => {
-    setSettings((prevSettings) => ({ ...prevSettings, endOct }));
-  };
-
-  const setNoteDuration = (noteDuration) => {
-    setSettings((prevSettings) => ({ ...prevSettings, noteDuration }));
-  };
-
-  const setVolumeChange = (volumeChange) => {
-    setSettings((prevSettings) => ({ ...prevSettings, volumeChange }));
+    updateSetting("date", { ...settings.date, end });
   };
 
   return {
     settings,
     setStartDate,
     setEndDate,
-    setNoteSliderValue,
-    setScaleKey,
-    setStartOct,
-    setEndOct,
-    setNoteDuration,
-    setVolumeChange,
+    updateSetting, // Now you can use this function to update any setting
   };
 };
 
@@ -71,17 +43,8 @@ const Home = () => {
     volumeChange: false,
   };
 
-  const {
-    settings,
-    setStartDate,
-    setEndDate,
-    setNoteSliderValue,
-    setScaleKey,
-    setStartOct,
-    setEndOct,
-    setNoteDuration,
-    setVolumeChange,
-  } = useSettings(initialSettings);
+  const { settings, setStartDate, setEndDate, updateSetting } =
+    useSettings(initialSettings);
 
   return (
     <div className="flex flex-col m-8 space-y-4">
@@ -96,12 +59,12 @@ const Home = () => {
         volumeChange={settings.volumeChange}
         setStartDate={setStartDate}
         setEndDate={setEndDate}
-        setNoteSliderValue={setNoteSliderValue}
-        setScaleKey={setScaleKey}
-        setStartOct={setStartOct}
-        setEndOct={setEndOct}
-        setNoteDuration={setNoteDuration}
-        setVolumeChange={setVolumeChange}
+        setNoteSliderValue={(value) => updateSetting("noteSliderValue", value)}
+        setScaleKey={(value) => updateSetting("scaleKey", value)}
+        setStartOct={(value) => updateSetting("startOct", value)}
+        setEndOct={(value) => updateSetting("endOct", value)}
+        setNoteDuration={(value) => updateSetting("noteDuration", value)}
+        setVolumeChange={(value) => updateSetting("volumeChange", value)}
       />
       <Result settings={settings} />
     </div>
