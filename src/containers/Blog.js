@@ -18,6 +18,13 @@ const Blog = () => {
           component="h1"
           style={{ color: COLORS.orange }}
         >
+          <a href="https://www.youtube.com/watch?v=eeGnjU_kF5M"> Demo Video</a>
+        </Typography>
+        <Typography
+          variant="h4"
+          component="h1"
+          style={{ color: COLORS.orange }}
+        >
           Why Stonks?
         </Typography>
         <Typography paragraph>
@@ -242,7 +249,10 @@ const Blog = () => {
           interesting. Lastly, we only played with the note quality, but not
           with rhythm!
         </Typography>
-        {/* ... */}
+        <Typography variant="h5" component="h2" style={{ color: COLORS.red }}>
+          Thanks for reading :)
+          <br />- Cindy and Ellen
+        </Typography>
       </div>
     </div>
   );
