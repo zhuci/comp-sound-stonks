@@ -23,7 +23,7 @@ const Blog = () => {
         <Typography paragraph>
           From the examples in class, we felt like one avenue of automated
           composition is building upon interesting data streams (such as the
-          Game of Life one). Thinking about data streams, we thought most
+          Game of Life). Thinking about data streams, we thought most
           immediately about the stock market — its large dataset gives us
           latitude to compare and derive a large range of sounds, and its many
           features (such as price(s), volume, volatility, etc.) can be converted
@@ -214,7 +214,7 @@ const Blog = () => {
           our web-app look kind of like a Bloomberg terminal! So we took their
           color scheme (red, green, orange, dark background), and chart styling
           (blue gradient). We used the Material UI components library (for the
-          buttons, date selector, sliders, etc) and the TailwindCSS for styling.
+          buttons, date selector, sliders, etc) and TailwindCSS for styling.
         </Typography>
         {/* Content for Limitations & Future Work */}
         <Typography

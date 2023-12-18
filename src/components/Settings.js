@@ -71,13 +71,13 @@ const Settings = ({
         />
       </div>
       <Typography variant="caption">
-        <sup>1</sup> If both, then the notes will be from the key's major scale
-        if the data is increasing and from the key's minor scale if the data is
-        decreasing
+        <sup>1</sup> If "Both", then the notes will be from the key's major
+        scale if the data is increasing and from the key's minor scale if the
+        data is decreasing
         <br />
         <sup>2</sup> Sound volume based on trading volume
         <br />
-        <sup>3</sup> Larger (high-low) price difference equals more partials
+        <sup>3</sup> Larger ( high - low ) price difference equals more partials
       </Typography>
     </div>
   );
