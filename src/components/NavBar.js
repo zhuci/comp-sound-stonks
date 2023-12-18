@@ -38,7 +38,7 @@ const NavBar = () => {
             }}
             color={COLORS.white}
           >
-            Automated Composition with Stock Data!
+            AUTOMATED COMPOSITON WITH STOCK DATA
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {sections.map((section, index) => (

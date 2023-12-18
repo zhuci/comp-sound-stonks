@@ -8,7 +8,7 @@ const Blog = () => {
   return (
     <div className="flex flex-col m-8 space-y-4">
       <NavBar />
-      <div className="pt-10 mx-32">
+      <div className="pt-10 mx-60">
         <Typography variant="h3" style={{ color: COLORS.red }}>
           Blog Post :){" "}
         </Typography>{" "}
@@ -38,10 +38,11 @@ const Blog = () => {
         </Typography>
         <Typography paragraph>
           {/* <Typography component="div"> */}
-          Broadly, our workflow was as follows: 1. scrape stock data (using
-          Python) 2. read user settings to process data (JavaScript) 3. generate
-          audio and visualizations from the processed data (React and
-          JavaScript)
+          Broadly, our workflow was as follows: <br />
+          1. scrape stock data (using Python) <br /> 2. read user settings to
+          process data (JavaScript) <br />
+          3. generate audio and visualizations from the processed data (React
+          and JavaScript)
         </Typography>
         {/* Subheadings can be h5 or h6 depending on the visual importance */}
         <Typography variant="h5" component="h2" style={{ color: COLORS.blue }}>
@@ -62,8 +63,8 @@ const Blog = () => {
           those new settings are used to grab the right data (from the correct
           date range), and processed as necessary (filtering for speed, turning
           raw data into frequencies, volumes, and partials), then finally fed
-          into the audio and visual components. <br />
-          Read more about our design choices about these processes below.
+          into the audio and visual components. Read more about our design
+          choices about these processes below.
         </Typography>
         <Typography variant="h5" component="h2" style={{ color: COLORS.blue }}>
           Audio & Visualization
@@ -146,33 +147,29 @@ const Blog = () => {
           to see, but few enough data points that the render doesn't take
           forever.
         </Typography>
-        <Typography
-          variant="h4"
-          component="h1"
-          style={{ color: COLORS.orange }}
-        >
-          Limitations & Future Work
-        </Typography>
         <Typography variant="h5" component="h2" style={{ color: COLORS.blue }}>
           Note Generation
         </Typography>
         <Typography paragraph>
-          Note Generation involved 3 main steps: 1. Getting the Scale Notes (for
-          major and minor key) for the key and range of octaves selected 2.
-          Normalizing the stock data to the min and max of the pool of notes 3.
-          Finding the closest note from our pool of notes to the normalized data
-          point. For our first MVP (before the in class presentation), we
-          constrained the range of notes to be from 2 octaves and did not
-          specify a key. Later on, we added user input for the key, range of
-          octaves, and type of key so the user can customize their composition
-          to suit their tastes.
+          Note Generation involved 3 main steps: <br />
+          1. Getting the Scale Notes (for major and minor key) for the key and
+          range of octaves selected <br />
+          2. Normalizing the stock data to the min and max of the pool of notes{" "}
+          <br /> 3. Finding the closest note from our pool of notes to the
+          normalized data point. <br />
+          <br />
+          For our first MVP (before the in class presentation), we constrained
+          the range of notes to be from 2 octaves and did not specify a key.
+          Later on, we added user input for the key, range of octaves, and type
+          of key so the user can customize their composition to suit their
+          tastes.
         </Typography>
         <Typography variant="h6" component="h2" style={{ color: COLORS.green }}>
           Getting the Scale Notes
         </Typography>
         <Typography paragraph>
           We have 2 dictionaries stored locally that are used in converting data
-          points to notes: every note from C0 to B8’s note name and
+          points to notes: every note from C0 to B8's note name and
           corresponding frequency (440Hz A4) and all major and minor scales and
           their corresponding note names. Using these 2 dictionaries and the
           user input of the key, and range of octaves we were able to get all
@@ -213,7 +210,7 @@ const Blog = () => {
           UI/UX
         </Typography>
         <Typography paragraph>
-          Since we were working with stock data, we thought it’d be fun to make
+          Since we were working with stock data, we thought it'd be fun to make
           our web-app look kind of like a Bloomberg terminal! So we took their
           color scheme (red, green, orange, dark background), and chart styling
           (blue gradient). We used the Material UI components library (for the
@@ -231,12 +228,12 @@ const Blog = () => {
           Despite our best efforts to preprocess and filter data, changing the
           date range still takes a couple seconds to load the new data. One
           possible workaround is to move our data to a database, and have a
-          backend to query that could do the processing faster than what we’re
+          backend to query that could do the processing faster than what we're
           currently doing client-side. Another thing we could add is a “Loading”
-          UX so that it’s not as awkward when things just get stuck.
+          UX so that it's not as awkward when things just get stuck.
         </Typography>
         <Typography paragraph>
-          There’s a lot more interesting things that we didn’t get to with
+          There's a lot more interesting things that we didn't get to with
           regards to the sound. For example, we only change our frequency,
           volume, and harmonics, but other forms of modulation, and even
           granular synthesis, could be used to make the sound more complex.
