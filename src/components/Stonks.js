@@ -30,7 +30,6 @@ const CustomLabel = ({ viewBox, value }) => {
 
 const Stonks = ({ data, notePoints, currentTime }) => {
   const theme = useTheme();
-  console.log("theme", theme.palette.background.default);
   const formatDate = (date) => {
     const d = new Date(date);
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(

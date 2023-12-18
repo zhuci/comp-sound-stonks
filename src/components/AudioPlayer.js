@@ -34,32 +34,48 @@ const AudioPlayer = ({
   }, [audioContext]);
 
   const playNote = useCallback(
-    (index, freq, volume) => {
+    (index, freq, volume, partials) => {
+      const totalVoices = partials + 1;
+
       onTimeUpdate(index);
       const oscillator = audioContext.createOscillator();
       oscillator.type = "sine";
       // set target at time
       oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
       // oscillator.frequency.setTargetAtTime(freq, audioContext.currentTime, 0.1)
+      const gainNode = audioContext.createGain();
+
+      // additive synthesis
+      let additiveOscs = [];
+      for (let i = 0; i < partials; i++) {
+        const o = audioContext.createOscillator();
+        o.frequency.value = (i + 1) * freq + Math.random() * 15;
+        o.connect(gainNode);
+        o.type = "sine";
+        additiveOscs.push(o);
+      }
 
       // ADSR
-      const gainNode = audioContext.createGain();
       // ADSR Attack
       gainNode.gain.setValueAtTime(0.001, audioContext.currentTime);
       gainNode.gain.setTargetAtTime(
-        attackMaxGain * volume,
+        (attackMaxGain * volume) / totalVoices,
         audioContext.currentTime,
         attackConstant
       );
       // ADSR Decay
       gainNode.gain.setTargetAtTime(
-        sustainGain * volume,
+        (sustainGain * volume) / totalVoices,
         audioContext.currentTime + attackTime,
         decayConstant
       );
 
       oscillator.connect(gainNode).connect(globalGain);
       oscillator.start();
+
+      for (const o of additiveOscs) {
+        o.start();
+      }
 
       // ADSR Sustain + Release
       gainNode.gain.setTargetAtTime(
@@ -75,7 +91,12 @@ const AudioPlayer = ({
     if (currentNote < noteData.length) {
       const note = noteData[currentNote];
 
-      playNote(currentNote, note.freq, volumeChange ? note.volume : 1);
+      playNote(
+        currentNote,
+        note.freq,
+        volumeChange ? note.volume : 1,
+        Math.round(note.price_change)
+      );
 
       setTimeout(() => {
         setCurrentNote(currentNote + 1);
