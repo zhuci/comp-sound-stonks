@@ -53,7 +53,7 @@ const Stonks = ({ data, notePoints, currentTime }) => {
 
   return (
     <div className="">
-      <ResponsiveContainer height={400}>
+      <ResponsiveContainer height={500}>
         <ComposedChart data={data}>
           <defs>
             <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
