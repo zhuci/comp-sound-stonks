@@ -18,8 +18,14 @@ const Blog = () => {
           component="h1"
           style={{ color: COLORS.orange }}
         >
-          <a href="https://www.youtube.com/watch?v=eeGnjU_kF5M"> Demo Video</a>
+          <u>
+            <a href="https://www.youtube.com/watch?v=eeGnjU_kF5M">
+              {" "}
+              Demo Video
+            </a>
+          </u>
         </Typography>
+        <br />
         <Typography
           variant="h4"
           component="h1"
