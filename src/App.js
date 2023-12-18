@@ -20,7 +20,7 @@ const App = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <BrowserRouter basename={"/comp-sound-stonks"}>
         {/* // <BrowserRouter> */}
         <Routes>
           <Route exact path="/" element={<Home />} />
