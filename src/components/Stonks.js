@@ -9,6 +9,8 @@ import {
   ResponsiveContainer,
   ReferenceDot,
 } from "recharts";
+import { COLORS } from "../values/colors";
+import { useTheme } from "@mui/material/styles";
 
 const CustomLabel = ({ viewBox, value }) => {
   const { x, y, width, height } = viewBox;
@@ -17,7 +19,7 @@ const CustomLabel = ({ viewBox, value }) => {
     <text
       x={x + width / 2}
       y={y + height / 2}
-      fill="#82ca9d"
+      fill={COLORS.green}
       textAnchor="middle"
       dominantBaseline="middle"
     >
@@ -27,6 +29,8 @@ const CustomLabel = ({ viewBox, value }) => {
 };
 
 const Stonks = ({ data, notePoints, currentTime }) => {
+  const theme = useTheme();
+  console.log("theme", theme.palette.background.default);
   const formatDate = (date) => {
     const d = new Date(date);
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
@@ -63,29 +67,34 @@ const Stonks = ({ data, notePoints, currentTime }) => {
           <Line
             type="monotone"
             dataKey="close"
-            stroke="#8884d8"
-            dot={{ fill: "#8884d8", r: 0 }}
+            stroke={COLORS.white}
+            dot={{ fill: COLORS.white, r: 0 }}
           />
           <Line
             connectNulls
             type="monotone"
             dataKey="filtered"
-            stroke="#82ca9d"
-            dot={{ fill: "#82ca9d", r: 4 }}
+            stroke={COLORS.green}
+            dot={{ fill: COLORS.green, r: 4 }}
           />
-          <ReferenceLine x={currentDatetimeStr} stroke="#82ca9d" />
+          <ReferenceLine x={currentDatetimeStr} stroke={COLORS.green} />
           {filteredData.map((entry, index) =>
             index === currentTime ? (
               <ReferenceDot
                 key={`tooltip-${index}`}
                 x={entry.datetime_str}
                 y={entry.close + 15}
-                stroke="white"
-                fill="white"
+                stroke={theme.palette.background.default}
+                fill={theme.palette.background.default}
                 isFront={true}
                 label={<CustomLabel value={`${entry.note}`} />}
                 shape={({ cx, cy }) => (
-                  <circle cx={cx} cy={cy} r={20} fill="white" />
+                  <circle
+                    cx={cx}
+                    cy={cy}
+                    r={20}
+                    fill={theme.palette.background.default}
+                  />
                 )}
               />
             ) : null

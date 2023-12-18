@@ -98,7 +98,9 @@ const AudioPlayer = ({
 
   return (
     <div>
-      <Button onClick={togglePlayPause}>{isPlaying ? "Pause" : "Play"}</Button>
+      <Button onClick={togglePlayPause} variant="contained">
+        {isPlaying ? "Pause" : "Play"}
+      </Button>
     </div>
   );
 };
