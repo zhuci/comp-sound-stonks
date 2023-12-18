@@ -49,7 +49,7 @@ const Home = () => {
     useSettings(initialSettings);
 
   return (
-    <div className="flex m-8 space-y-4">
+    <div className="flex m-8 space-y-8">
       <NavBar />
       <div className="flex-col w-1/3 pt-10">
         <Settings

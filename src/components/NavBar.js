@@ -22,15 +22,23 @@ const NavBar = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar sx={{ borderBottom: 5, borderColor: COLORS.green }}>
+      <AppBar
+        sx={{
+          background: `linear-gradient(to bottom, ${COLORS.black} 70%, ${COLORS.red})`,
+        }}
+      >
         <Toolbar>
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", sm: "block" },
+              fontWeight: "bold",
+            }}
             color={COLORS.white}
           >
-            STONKS
+            Automated Composition with Stock Data!
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {sections.map((section, index) => (

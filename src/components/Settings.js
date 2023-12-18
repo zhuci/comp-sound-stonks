@@ -54,14 +54,16 @@ const Settings = ({
         setStartOct={setStartOct}
         setEndOct={setEndOct}
       />
-      <VolumeToggle
-        volumeChange={volumeChange}
-        setVolumeChange={setVolumeChange}
-      />
-      <AdditiveSynthesisToggle
-        additiveSynthesis={additiveSynthesis}
-        setAdditiveSynthesis={setAdditiveSynthesis}
-      />
+      <div className="flex ">
+        <VolumeToggle
+          volumeChange={volumeChange}
+          setVolumeChange={setVolumeChange}
+        />
+        <AdditiveSynthesisToggle
+          additiveSynthesis={additiveSynthesis}
+          setAdditiveSynthesis={setAdditiveSynthesis}
+        />
+      </div>
     </div>
   );
 };
