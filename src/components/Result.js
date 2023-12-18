@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Stonks from "./Stonks";
 import AudioPlayer from "./AudioPlayer";
 
 import { dataToNotes } from "../utils/dataToNotes";
-import { readData } from "../utils/readData";
+import { readAllData } from "../utils/readData";
 
 const Result = ({ settings }) => {
   const [data, setData] = useState({
@@ -14,12 +14,14 @@ const Result = ({ settings }) => {
 
   const [currentTime, setCurrentTime] = useState(null);
 
+  const allStockData = useMemo(
+    () => readAllData(settings.date.start, settings.date.end),
+    [settings.date.start, settings.date.end]
+  );
+
   useEffect(() => {
-    const [rawData, binnedData] = readData(
-      settings.date.start,
-      settings.date.end,
-      settings.noteSliderValue
-    );
+    const binnedData = allStockData[settings.noteSliderValue];
+    const rawData = allStockData["raw_data"];
 
     let closeBinnedData = binnedData.map((value) => value.close);
 
@@ -31,7 +33,13 @@ const Result = ({ settings }) => {
     );
     setData(() => ({ note: newNoteData, raw: rawData, binned: binnedData }));
     setCurrentTime(0);
-  }, [settings]);
+  }, [
+    settings.noteSliderValue,
+    settings.scaleKey,
+    settings.startOct,
+    settings.endOct,
+    allStockData,
+  ]);
 
   return (
     <div className="flex flex-col space-y-4">

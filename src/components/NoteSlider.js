@@ -13,10 +13,10 @@ const NoteSlider = ({ sliderValue, setSliderValue }) => {
         <Slider
           value={sliderValue}
           onChange={(_, newValue) => setSliderValue(newValue)}
-          min={10}
+          min={20}
           max={100}
           defaultValue={20}
-          step={10}
+          step={20}
           marks
           aria-label="Default"
           valueLabelDisplay="auto"

@@ -4,7 +4,7 @@ dayjs.extend(isSameOrAfter);
 var isSameOrBefore = require("dayjs/plugin/isSameOrBefore");
 dayjs.extend(isSameOrBefore);
 
-export const readData = (startDate, endDate, numData) => {
+const readData = (startDate, endDate, numData) => {
   const startYear = startDate.year();
   const endYear = endDate.year();
   const allData = [];
@@ -43,4 +43,16 @@ export const readData = (startDate, endDate, numData) => {
   }
 
   return [dateRangeData, dateRangeData];
+};
+
+export const readAllData = (startDate, endDate) => {
+  let output = {};
+  let date_range_data = [];
+  for (let i = 1; i <= 5; i++) {
+    let [cur_date_range, cur_binned] = readData(startDate, endDate, i * 20);
+    output[i * 20] = cur_binned;
+    date_range_data = cur_date_range;
+  }
+  output["raw_data"] = date_range_data;
+  return output;
 };
