@@ -22,13 +22,13 @@ const NavBar = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar sx={{ bgcolor: COLORS.orange }}>
+      <AppBar sx={{ borderBottom: 5, borderColor: COLORS.green }}>
         <Toolbar>
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-            color={COLORS.black}
+            color={COLORS.white}
           >
             STONKS
           </Typography>
@@ -41,13 +41,17 @@ const NavBar = () => {
                   window.location.pathname === "/comp-sound-stonks") ? (
                   <Button
                     key={index}
-                    sx={{ color: COLORS.black }}
+                    sx={{ color: COLORS.orange }}
                     variant="text"
                   >
                     {section.title}
                   </Button>
                 ) : (
-                  <Button key={index} sx={{ color: "#fff" }} variant="text">
+                  <Button
+                    key={index}
+                    sx={{ color: COLORS.white }}
+                    variant="text"
+                  >
                     {section.title}
                   </Button>
                 )}
