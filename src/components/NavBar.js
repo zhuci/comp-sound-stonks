@@ -6,6 +6,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import { COLORS } from "../values/colors";
 
 const NavBar = () => {
   const sections = [
@@ -21,12 +22,13 @@ const NavBar = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar sx={{ bgcolor: "#8884d8" }}>
+      <AppBar sx={{ bgcolor: COLORS.orange }}>
         <Toolbar>
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            color={COLORS.black}
           >
             STONKS
           </Typography>
@@ -37,7 +39,11 @@ const NavBar = () => {
                   "/comp-sound-stonks" + section.url ||
                 (section.url === "/" &&
                   window.location.pathname === "/comp-sound-stonks") ? (
-                  <Button key={index} sx={{ color: "#82ca9d" }} variant="text">
+                  <Button
+                    key={index}
+                    sx={{ color: COLORS.black }}
+                    variant="text"
+                  >
                     {section.title}
                   </Button>
                 ) : (
