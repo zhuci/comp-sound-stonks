@@ -73,11 +73,11 @@ export function dataToNotes(data, scaleKey, keyType, startOct, endOct) {
     scales.minorMin,
     scales.minorMax
   );
-  let normalized_volume_data = normalizeDataToRange(data, "volume", 0.1, 0.8);
+  let normalized_volume_data = normalizeDataToRange(data, "volume", 0.1, 0.9);
   let with_diff = data.map((item) => {
     return { ...item, diff: item.high - item.low };
   });
-  let normalized_high_low_data = normalizeDataToRange(with_diff, "diff", 1, 8);
+  let normalized_high_low_data = normalizeDataToRange(with_diff, "diff", 0, 8);
 
   let output = [];
 
